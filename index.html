@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyWord Games — Explorando o Horror Independente</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #09080d;
+  --bg2:     #0e0c14;
+  --bg3:     #13101a;
+  --border:  #1e1a2a;
+  --border2: #2a2438;
+  --red:     #8b1a1a;
+  --red2:    #c02020;
+  --red3:    #e04040;
+  --cream:   #d4c8a8;
+  --cream2:  #b0a080;
+  --muted:   #6a6050;
+  --dark:    #352e1e;
+  --mono:    'Share Tech Mono', monospace;
+  --display: 'Bebas Neue', sans-serif;
+  --serif:   'Crimson Pro', Georgia, serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--serif);
+  overflow-x: hidden;
+}
+
+/* grain */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  height: 60px;
+  background: rgba(9,8,13,0.92);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+.nav-logo {
+  font-family: var(--display);
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: var(--cream);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--cream); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 60%, rgba(139,26,26,0.12) 0%, transparent 70%);
+}
+
+.hero-logo {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 0 40px rgba(192,32,32,0.3));
+  animation: logoFloat 6s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(56px, 10vw, 100px);
+  letter-spacing: 8px;
+  line-height: 0.9;
+  color: var(--cream);
+  text-shadow: 0 0 60px rgba(192,32,32,0.25);
+  margin-bottom: 0.4rem;
+}
+
+.hero-title span { color: var(--red2); }
+
+.hero-tagline {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.5px;
+}
+
+.hero-tags {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.htag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  padding: 4px 14px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 12px 28px;
+  border: 1px solid;
+  transition: all 0.2s;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn-primary {
+  border-color: var(--red2);
+  color: var(--red3);
+  background: rgba(139,26,26,0.1);
+}
+.btn-primary:hover {
+  background: rgba(139,26,26,0.25);
+  color: #ff6060;
+}
+
+.btn-secondary {
+  border-color: var(--border2);
+  color: var(--muted);
+}
+.btn-secondary:hover {
+  border-color: var(--cream2);
+  color: var(--cream);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--dark);
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.8; }
+}
+
+/* ── SECTION ── */
+section {
+  padding: 5rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--red2);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 5vw, 52px);
+  letter-spacing: 3px;
+  color: var(--cream);
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+}
+
+/* ── GAMES GRID ── */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.game-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.game-card:hover {
+  border-color: var(--red);
+  transform: translateY(-4px);
+}
+
+.game-card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.7) brightness(0.85);
+  transition: filter 0.3s;
+}
+
+.game-card:hover .game-card-img {
+  filter: saturate(0.9) brightness(0.95);
+}
+
+.game-card-body {
+  padding: 1.2rem 1.3rem 1.4rem;
+}
+
+.game-card-status {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.status-released { color: var(--red2); }
+.status-wip      { color: #c8842a; }
+
+.game-card-title {
+  font-family: var(--display);
+  font-size: 26px;
+  letter-spacing: 2px;
+  color: var(--cream);
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.game-card-desc {
+  font-size: 14px;
+  color: var(--cream2);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.game-card-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.gtag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.game-card-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.game-card-link {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--red3);
+  text-decoration: none;
+}
+
+.game-card-link:hover { color: #ff6060; }
+
+.wip-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border: 1px solid #c8842a;
+  color: #c8842a;
+  background: rgba(200,132,42,0.08);
+}
+
+/* ── DEVLOG SECTION ── */
+.devlog-section {
+  border-top: 1px solid var(--border);
+  padding-top: 5rem;
+}
+
+.devlog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.devlog-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 1.2rem 1.3rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.devlog-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--red);
+  opacity: 0.6;
+}
+
+.devlog-card:hover {
+  border-color: var(--red);
+  transform: translateX(4px);
+}
+
+.devlog-card-day {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--red2);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.devlog-card-title {
+  font-family: var(--display);
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  color: var(--cream);
+  margin-bottom: 0.5rem;
+  line-height: 1.15;
+}
+
+.devlog-card-excerpt {
+  font-size: 13px;
+  color: var(--cream2);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+.devlog-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border);
+}
+
+.devlog-card-version {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.devlog-card-arrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--red2);
+}
+
+/* ── ABOUT ── */
+.about-section {
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (max-width: 700px) {
+  .about-section { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+.about-logo {
+  width: 100%;
+  max-width: 320px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 30px rgba(192,32,32,0.2));
+}
+
+.about-text .section-title { margin-bottom: 1.2rem; }
+
+.about-text p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--cream2);
+  margin-bottom: 1rem;
+}
+
+.about-text p strong { color: var(--cream); font-weight: 600; }
+
+.about-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-brand {
+  font-family: var(--display);
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--muted);
+}
+
+.footer-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--dark);
+}
+
+footer a {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+footer a:hover { color: var(--cream2); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero > * {
+  animation: fadeUp 0.7s ease both;
+}
+.hero > *:nth-child(2) { animation-delay: 0.1s; }
+.hero > *:nth-child(3) { animation-delay: 0.2s; }
+.hero > *:nth-child(4) { animation-delay: 0.3s; }
+.hero > *:nth-child(5) { animation-delay: 0.4s; }
+.hero > *:nth-child(6) { animation-delay: 0.5s; }
+
+/* divider */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="logo_keyword.png" alt="KeyWord Games">
+    KEYWORD GAMES
+  </a>
+  <ul class="nav-links">
+    <li><a href="#jogos">Jogos</a></li>
+    <li><a href="#devlog">Devlog</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="https://keywordgames.itch.io" target="_blank">itch.io ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <img src="logo_keyword.png" alt="KeyWord Games Logo" class="hero-logo">
+  <h1 class="hero-title">KEY<span>WORD</span><br>GAMES</h1>
+  <p class="hero-tagline">explorando o horror independente — terror, RPG e aventura</p>
+  <div class="hero-tags">
+    <span class="htag">Godot Engine</span>
+    <span class="htag">Horror</span>
+    <span class="htag">Walking Sim</span>
+    <span class="htag">Visual Novel</span>
+    <span class="htag">Indie BR</span>
+  </div>
+  <div class="hero-cta">
+    <a href="#jogos" class="btn btn-primary">[ Ver Jogos ]</a>
+    <a href="https://keywordgames.itch.io" target="_blank" class="btn btn-secondary">[ itch.io ]</a>
+  </div>
+  <div class="scroll-hint">▼ scroll</div>
+</div>
+
+<!-- JOGOS -->
+<section id="jogos">
+  <div class="section-label">// portfólio</div>
+  <h2 class="section-title">NOSSOS JOGOS</h2>
+
+  <div class="games-grid">
+
+    <!-- O Vazio que Respira -->
+    <a href="vazio.html" class="game-card">
+      <img src="img_vazio.png" alt="O Vazio Que Respira" class="game-card-img">
+      <div class="game-card-body">
+        <div class="game-card-status status-released">● Disponível</div>
+        <div class="game-card-title">O VAZIO QUE RESPIRA</div>
+        <p class="game-card-desc">uma experiência sobre consciência, existência e o que fica quando tudo o mais se dissolve</p>
+        <div class="game-card-tags">
+          <span class="gtag">Visual Novel</span>
+          <span class="gtag">Psicológico</span>
+          <span class="gtag">Web</span>
+        </div>
+        <div class="game-card-cta">
+          <span class="game-card-link">Ver mais →</span>
+          <span style="font-family:var(--mono);font-size:9px;color:var(--muted);">Play in browser</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- A Última Gravação -->
+    <a href="ultima_gravacao.html" class="game-card">
+      <img src="img_ultima_gravacao.png" alt="A Última Gravação" class="game-card-img">
+      <div class="game-card-body">
+        <div class="game-card-status status-wip">◐ Em Desenvolvimento</div>
+        <div class="game-card-title">A ÚLTIMA GRAVAÇÃO</div>
+        <p class="game-card-desc">Estação 7, 1987. Os equipamentos ainda estão ligados. O rádio está transmitindo. Você não deveria estar aqui.</p>
+        <div class="game-card-tags">
+          <span class="gtag">Horror 3D</span>
+          <span class="gtag">Walking Sim</span>
+          <span class="gtag">Web</span>
+        </div>
+        <div class="game-card-cta">
+          <span class="game-card-link">Acompanhar →</span>
+          <span class="wip-badge">WIP · 7 dias</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- DEVLOG -->
+<section id="devlog" class="devlog-section">
+  <div class="section-label">// a última gravação</div>
+  <h2 class="section-title">DEVLOG</h2>
+
+  <div class="devlog-grid">
+
+    <a href="devlog_dia1.html" class="devlog-card">
+      <div class="devlog-card-day">Dia 1 · 26 Mai 2026</div>
+      <div class="devlog-card-title">CRIANDO A BASE DO JOGO</div>
+      <p class="devlog-card-excerpt">Ambiente 3D navegável em primeira pessoa, movimentação WASD, sala principal com iluminação atmosférica e menu inicial. O início de tudo.</p>
+      <div class="devlog-card-meta">
+        <span class="devlog-card-version">v0.0.1</span>
+        <span class="devlog-card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="devlog_dia2.html" class="devlog-card">
+      <div class="devlog-card-day">Dia 2 · 27 Mai 2026</div>
+      <div class="devlog-card-title">NARRATIVA, ATMOSFERA E OS PRIMEIROS PASSOS</div>
+      <p class="devlog-card-excerpt">Introdução narrativa com texto letra a letra, lâmpada piscando com falhas irregulares, fluxo completo de cenas e fade entre salas.</p>
+      <div class="devlog-card-meta">
+        <span class="devlog-card-version">v0.0.2</span>
+        <span class="devlog-card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="devlog_dia3_v003.html" class="devlog-card">
+      <div class="devlog-card-day">Dia 3 · 28 Mai 2026</div>
+      <div class="devlog-card-title">FUNDAÇÕES SÓLIDAS E O DEPÓSITO GANHA VIDA</div>
+      <p class="devlog-card-excerpt">Batalha das texturas PBR no web, estante metálica e caixas de papelão modeladas do zero, discovery text e seis caixas no depósito.</p>
+      <div class="devlog-card-meta">
+        <span class="devlog-card-version">v0.0.3</span>
+        <span class="devlog-card-arrow">→</span>
+      </div>
+    </a>
+
+    <div class="devlog-card" style="opacity:0.4;cursor:default;">
+      <div class="devlog-card-day">Dia 4 · Em breve</div>
+      <div class="devlog-card-title">SISTEMA DE INTERAÇÃO</div>
+      <p class="devlog-card-excerpt">O jogador vai poder examinar objetos, ler bilhetes e descobrir as primeiras pistas. A história de Marcus Vael começa a se revelar.</p>
+      <div class="devlog-card-meta">
+        <span class="devlog-card-version">v0.0.4</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--muted);">em construção</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SOBRE -->
+<div class="about-section" id="sobre" style="max-width:1100px;margin:0 auto;padding:0 2rem;">
+  <img src="logo_keyword.png" alt="KeyWord Games" class="about-logo">
+  <div class="about-text">
+    <div class="section-label">// sobre</div>
+    <h2 class="section-title">KEYWORD GAMES</h2>
+    <p>Estúdio independente explorando <strong>terror, RPG e aventura</strong> através de experiências narrativas intensas.</p>
+    <p>O processo de estudo é público — cada jogo publicado representa um ciclo de aprendizado documentado em devlogs diários, cobrindo <strong>pixel art, mecânicas, narrativa, atmosfera</strong> e arquitetura de código.</p>
+    <p>Ferramentas: <strong>Godot Engine, Unity, RPG Maker</strong> — e projetos sem engine para aprofundar fundamentos técnicos.</p>
+    <div class="about-links">
+      <a href="https://keywordgames.itch.io" target="_blank" class="btn btn-primary">[ itch.io ]</a>
+      <a href="https://www.instagram.com/keyword_games/" target="_blank" class="btn btn-secondary">[ Instagram ]</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">KEYWORD GAMES</span>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;">
+    <a href="https://keywordgames.itch.io" target="_blank">itch.io</a>
+    <a href="https://www.instagram.com/keyword_games/" target="_blank">Instagram</a>
+  </div>
+  <span class="footer-meta">© 2026 KeyWord Games · Todos os direitos reservados</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Log v0.0.2 · Dia 2 — A Última Gravação</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#09080d; --bg2:#0e0c14; --bg3:#13101a;
+  --border:#1e1a2a; --border2:#2a2438;
+  --amber:#c8842a; --amber2:#e8a84a; --amber3:#f5d080;
+  --red:#8b2020; --green:#2a5c2a; --green2:#4a9a4a;
+  --text:#c8b898; --text2:#8a7a60; --text3:#5a4e38;
+  --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --serif:'Crimson Pro',Georgia,serif;
+}
+body { background:var(--bg); color:var(--text); font-family:var(--serif); min-height:100vh; padding:0; position:relative; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.6; }
+.scanline { position:fixed; inset:0; pointer-events:none; z-index:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px); }
+
+nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 2rem; height:52px; background:rgba(9,8,13,0.96); border-bottom:1px solid var(--border); }
+.nav-logo { font-family:var(--display); font-size: 17px; letter-spacing:3px; color:var(--text2); text-decoration:none; }
+.nav-back { font-family:var(--mono); font-size: 11px; letter-spacing:1.5px; color:var(--text3); text-decoration:none; }
+.nav-back:hover { color:var(--text); }
+
+.wrap { max-width:860px; margin:0 auto; padding:2.5rem 2rem 5rem; position:relative; z-index:1; }
+.header { border-bottom:1px solid var(--border2); padding-bottom:1.5rem; margin-bottom:2rem; }
+.header-top { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.2rem; }
+.game-title { font-family:var(--display); font-size: 39px; letter-spacing:3px; color:var(--amber2); line-height:1; text-shadow:0 0 40px rgba(200,132,42,0.3); }
+.game-sub { font-family:var(--mono); font-size: 12px; color:var(--text3); letter-spacing:2px; margin-top:6px; }
+.day-tracker { display:flex; gap:5px; align-items:center; padding-top:4px; }
+.day-pip { width:30px; height:30px; border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size: 11px; color:var(--text3); }
+.day-pip.done { background:rgba(42,92,42,0.3); border-color:var(--green2); color:var(--green2); }
+.day-pip.active { background:rgba(200,132,42,0.15); border-color:var(--amber); color:var(--amber2); font-size: 12px; }
+.version-row { display:flex; gap:10px; flex-wrap:wrap; }
+.tag { font-family:var(--mono); font-size: 11px; padding:3px 10px; border:1px solid; letter-spacing:1px; }
+.tag-amber { border-color:var(--amber); color:var(--amber2); background:rgba(200,132,42,0.08); }
+.tag-green { border-color:var(--green2); color:var(--green2); background:rgba(42,92,42,0.1); }
+.tag-gray  { border-color:var(--border2); color:var(--text3); }
+.devlog-title { font-family:var(--display); font-size: 27px; letter-spacing:2px; color:var(--text); margin-bottom:0.3rem; }
+.devlog-date { font-family:var(--mono); font-size: 12px; color:var(--text3); letter-spacing:1px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; margin:1.5rem 0; }
+.card { background:var(--bg2); border:1px solid var(--border); padding:1rem 1.1rem 1.1rem; position:relative; }
+.card::before { content:''; position:absolute; top:0;left:0; width:3px; height:100%; background:var(--amber); opacity:0.5; }
+.card.card-green::before { background:var(--green2); }
+.card.card-red::before { background:var(--red); opacity:0.8; }
+.card-label { font-family:var(--mono); font-size: 10px; letter-spacing:2px; color:var(--text3); text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.card-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.item-list { list-style:none; display:flex; flex-direction:column; gap:5px; }
+.item { font-size:13.5px; color:var(--text); line-height:1.45; display:flex; gap:8px; align-items:flex-start; }
+.item-dot { color:var(--amber); flex-shrink:0; font-family:var(--mono); font-size: 13px; margin-top:1px; }
+.item-dot.green { color:var(--green2); }
+.item-dot.red { color:#c04040; }
+.narrative { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--amber); padding:1.2rem 1.4rem; margin:1.5rem 0; }
+.narrative-label { font-family:var(--mono); font-size: 10px; letter-spacing:2px; color:var(--text3); text-transform:uppercase; margin-bottom:0.8rem; }
+.narrative p { font-size: 16px; line-height:1.75; color:var(--text); margin-bottom:0.7rem; }
+.narrative p:last-child { margin-bottom:0; }
+.narrative strong { color:var(--amber2); font-weight:600; }
+.quote-block { border-left:2px solid var(--amber); padding:0.5rem 1rem; margin:0.8rem 0; background:rgba(200,132,42,0.04); }
+.quote-block p { font-style:italic; font-size: 15px; color:var(--text2); line-height:1.6; }
+.card-full { background:var(--bg2); border:1px solid var(--border); padding:1rem 1.1rem; margin:12px 0; position:relative; }
+.card-full::before { content:''; position:absolute; top:0;left:0; width:3px; height:100%; background:var(--amber); opacity:0.5; }
+.next-wrap { background:var(--bg3); border:1px solid var(--border2); border-left:3px solid var(--amber2); padding:1rem 1.2rem; margin-top:1.5rem; }
+.next-label { font-family:var(--mono); font-size: 10px; letter-spacing:2px; color:var(--text3); text-transform:uppercase; margin-bottom:10px; }
+.next-items { display:flex; flex-direction:column; gap:6px; }
+.next-item { font-size:13.5px; color:var(--text); display:flex; gap:8px; align-items:flex-start; }
+.next-item .item-dot { color:var(--amber2); }
+.progress-wrap { margin:1.5rem 0 0.5rem; }
+.progress-meta { display:flex; justify-content:space-between; font-family:var(--mono); font-size: 12px; color:var(--text3); margin-bottom:6px; letter-spacing:1px; }
+.progress-track { height:4px; background:var(--border2); }
+.progress-fill { height:100%; background:var(--amber); width:0%; transition:width 1.2s ease; }
+.progress-markers { display:flex; justify-content:space-between; margin-top:6px; }
+.progress-marker { font-family:var(--mono); font-size: 10px; color:var(--text3); letter-spacing:0.5px; }
+.progress-marker.hit { color:var(--amber); }
+.footer { margin-top:2rem; border-top:1px solid var(--border); padding-top:1rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; font-family:var(--mono); font-size: 11px; color:var(--text3); letter-spacing:1px; }
+.footer a { color:var(--text3); text-decoration:none; }
+.footer a:hover { color:var(--text2); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.wrap > * { animation:fadeUp 0.5s ease both; }
+.wrap > *:nth-child(1){animation-delay:0.05s}.wrap > *:nth-child(2){animation-delay:0.12s}.wrap > *:nth-child(3){animation-delay:0.18s}.wrap > *:nth-child(4){animation-delay:0.24s}.wrap > *:nth-child(5){animation-delay:0.30s}.wrap > *:nth-child(6){animation-delay:0.36s}
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">KEYWORD GAMES</a>
+  <a href="index.html#devlog" class="nav-back">← Devlog</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="game-title">A Última Gravação</div>
+        <div class="game-sub">WALKING SIM · HORROR 3D · GODOT 4.2 · RENDERER COMPATÍVEL</div>
+      </div>
+      <div class="day-tracker">
+        <div class="day-pip done">D1</div>
+        <div class="day-pip active">D2</div>
+        <div class="day-pip">D3</div>
+        <div class="day-pip">D4</div>
+        <div class="day-pip">D5</div>
+        <div class="day-pip">D6</div>
+        <div class="day-pip">D7</div>
+      </div>
+    </div>
+    <div class="version-row">
+      <span class="tag tag-amber">v0.0.2</span>
+      <span class="tag tag-green">export web · itch.io</span>
+      <span class="tag tag-gray">27 mai 2026</span>
+      <span class="tag tag-gray">KeyWord Games</span>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <div class="devlog-title">DIA 2 — NARRATIVA, ATMOSFERA E OS PRIMEIROS PASSOS NO ESCURO</div>
+    <div class="devlog-date">TRANSFORMAR UMA SALA VAZIA EM UM LUGAR COM HISTÓRIA</div>
+  </div>
+
+  <div class="narrative">
+    <div class="narrative-label">// resumo do dia</div>
+    <p>O segundo dia foi dedicado a transformar uma sala vazia em um lugar com história — e a sensação mudou completamente.</p>
+    <p><strong>Introdução narrativa.</strong> O jogo agora começa com duas telas de intro antes de jogar. O texto aparece letra a letra sobre uma imagem atmosférica, apresentando Marcus Vael e o motivo pelo qual ele está na Estação 7. A Parte 1 estabelece o contexto com tom burocrático e seguro. A Parte 2 quebra essa segurança.</p>
+    <p><strong>A lâmpada que falha.</strong> O elemento que mais mudou a atmosfera. Não um piscar regular e mecânico — três grupos de falha em momentos irregulares, com cortes abruptos de luz. Nos momentos de escuridão os cantos da sala desaparecem completamente.</p>
+    <div class="quote-block">
+      <p>"O depósito tem sua própria variação: mais caótica, mais intensa, como se o sistema elétrico lá dentro estivesse em colapso."</p>
+    </div>
+    <p><strong>O fluxo atual.</strong> Menu → Intro Parte 1 → Intro Parte 2 → Sala Principal da Estação 7. Da sala principal é possível acessar o depósito pela porta e retornar. A transição usa fade a preto suave.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card card-green">
+      <div class="card-label">sistemas funcionando</div>
+      <ul class="item-list">
+        <li class="item"><span class="item-dot green">✓</span>Intro Parte 1 — texto letra a letra</li>
+        <li class="item"><span class="item-dot green">✓</span>Intro Parte 2 — quebra de tom</li>
+        <li class="item"><span class="item-dot green">✓</span>Lâmpada piscando irregular (AnimationPlayer)</li>
+        <li class="item"><span class="item-dot green">✓</span>Fade suave entre cenas</li>
+        <li class="item"><span class="item-dot green">✓</span>Depósito como segunda sala</li>
+        <li class="item"><span class="item-dot green">✓</span>Transição sala ↔ depósito funcional</li>
+        <li class="item"><span class="item-dot green">✓</span>Export Web · itch.io</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-label">fluxo de cenas</div>
+      <ul class="item-list">
+        <li class="item"><span class="item-dot">▸</span>menu_principal</li>
+        <li class="item"><span class="item-dot">▸</span>intro_1 — Marcus Vael, contexto</li>
+        <li class="item"><span class="item-dot">▸</span>intro_2 — quebra de segurança</li>
+        <li class="item"><span class="item-dot">▸</span>estacao_radio — sala principal</li>
+        <li class="item"><span class="item-dot">▸</span>deposito — segunda sala</li>
+        <li class="item"><span class="item-dot">▸</span>Fade a preto entre todas</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-label">atmosfera construída</div>
+      <ul class="item-list">
+        <li class="item"><span class="item-dot">▸</span>Imagem de fundo nas telas de intro</li>
+        <li class="item"><span class="item-dot">▸</span>Lâmpada: 3 grupos de falha irregular</li>
+        <li class="item"><span class="item-dot">▸</span>Escuridão total nos cortes de luz</li>
+        <li class="item"><span class="item-dot">▸</span>Variação de piscar diferente por sala</li>
+        <li class="item"><span class="item-dot">▸</span>Tom: burocrático → perturbador</li>
+      </ul>
+    </div>
+
+    <div class="card card-red">
+      <div class="card-label">pendente para próximos dias</div>
+      <ul class="item-list">
+        <li class="item"><span class="item-dot red">!</span>Salas ainda sem mobília/adereços</li>
+        <li class="item"><span class="item-dot red">!</span>Sem sons de passos ainda</li>
+        <li class="item"><span class="item-dot red">!</span>Sem objetos interativos</li>
+        <li class="item"><span class="item-dot red">!</span>Lanterna do jogador no depósito</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-meta"><span>progresso do projeto</span><span>Dia 2 / 7 — 28%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-markers">
+      <span class="progress-marker hit">D1 · base</span>
+      <span class="progress-marker hit">D2 · narrativa</span>
+      <span class="progress-marker">D3 · depósito</span>
+      <span class="progress-marker">D4 · interação</span>
+      <span class="progress-marker">D5 · áudio</span>
+      <span class="progress-marker">D6 · polish</span>
+      <span class="progress-marker">D7 · release</span>
+    </div>
+  </div>
+
+  <div class="next-wrap">
+    <div class="next-label">// dia 3 — o que vem a seguir</div>
+    <div class="next-items">
+      <div class="next-item"><span class="item-dot">▶</span>Resolver texturas PBR no export web</div>
+      <div class="next-item"><span class="item-dot">▶</span>Porta modelada com CSG como cena reutilizável</div>
+      <div class="next-item"><span class="item-dot">▶</span>Sistema de fade com Autoload Singleton</div>
+      <div class="next-item"><span class="item-dot">▶</span>Música ambiente e som de porta</div>
+      <div class="next-item"><span class="item-dot">▶</span>Discovery text na primeira visita ao depósito</div>
+      <div class="next-item"><span class="item-dot">▶</span>Estante metálica e caixas de papelão com CSG</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>godot 4.2 stable · renderer gl_compatibility · export web</span>
+    <span><a href="https://keywordgames.itch.io/a-ultima-gravacao/devlog/1536512/v002-dia-2-narrativa-atmosfera-e-os-primeiros-passos-no-escuro" target="_blank">devlog no itch.io ↗</a></span>
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => { const el = document.getElementById('pfill'); if(el) el.style.width = '28%'; }, 400);
+  });
+</script>
+</body>
+</html>

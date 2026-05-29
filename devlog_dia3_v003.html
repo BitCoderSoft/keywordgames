@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Log — v0.0.3 · A Última Gravação</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #09080d;
+    --bg2:       #0e0c14;
+    --bg3:       #13101a;
+    --border:    #1e1a2a;
+    --border2:   #2a2438;
+    --amber:     #c8842a;
+    --amber2:    #e8a84a;
+    --amber3:    #f5d080;
+    --red:       #8b2020;
+    --green:     #2a5c2a;
+    --green2:    #4a9a4a;
+    --text:      #c8b898;
+    --text2:     #8a7a60;
+    --text3:     #5a4e38;
+    --mono:      'Share Tech Mono', monospace;
+    --display:   'Bebas Neue', sans-serif;
+    --serif:     'Crimson Pro', Georgia, serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    min-height: 100vh;
+    padding: 0;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  .wrap {
+    padding-top: 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    border-bottom: 1px solid var(--border2);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+
+  .game-title {
+    font-family: var(--display);
+    font-size: 43px;
+    letter-spacing: 3px;
+    color: var(--amber2);
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(200,132,42,0.3);
+  }
+
+  .game-sub {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    margin-top: 6px;
+  }
+
+  .day-tracker {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding-top: 4px;
+  }
+
+  .day-pip {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .day-pip.done {
+    background: rgba(42,92,42,0.3);
+    border-color: var(--green2);
+    color: var(--green2);
+  }
+
+  .day-pip.active {
+    background: rgba(200,132,42,0.15);
+    border-color: var(--amber);
+    color: var(--amber2);
+    font-size: 12px;
+  }
+
+  .version-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 10px;
+    border: 1px solid;
+    letter-spacing: 1px;
+  }
+
+  .tag-amber { border-color: var(--amber); color: var(--amber2); background: rgba(200,132,42,0.08); }
+  .tag-green { border-color: var(--green2); color: var(--green2); background: rgba(42,92,42,0.1); }
+  .tag-gray  { border-color: var(--border2); color: var(--text3); }
+
+  /* ── DEVLOG TITLE ── */
+  .devlog-title {
+    font-family: var(--display);
+    font-size: 29px;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .devlog-date {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 1px;
+  }
+
+  /* ── SECTIONS GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin: 1.5rem 0;
+  }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1rem 1.1rem 1.1rem;
+    position: relative;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--amber);
+    opacity: 0.5;
+  }
+
+  .card.card-green::before { background: var(--green2); }
+  .card.card-red::before   { background: var(--red); opacity: 0.8; }
+
+  .card-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .item-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .item {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.45;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .item-dot {
+    color: var(--amber);
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    margin-top: 1px;
+  }
+
+  .item-dot.green { color: var(--green2); }
+  .item-dot.red   { color: #c04040; }
+
+  /* ── NARRATIVE SECTION ── */
+  .narrative {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber);
+    padding: 1.2rem 1.4rem;
+    margin: 1.5rem 0;
+  }
+
+  .narrative-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .narrative p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text);
+    margin-bottom: 0.7rem;
+  }
+
+  .narrative p:last-child { margin-bottom: 0; }
+
+  .narrative strong {
+    color: var(--amber2);
+    font-weight: 600;
+  }
+
+  /* ── FULL WIDTH CARD ── */
+  .card-full {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1rem 1.1rem;
+    margin: 12px 0;
+    position: relative;
+  }
+
+  .card-full::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--amber);
+    opacity: 0.5;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text3);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  .progress-track {
+    height: 4px;
+    background: var(--border2);
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--amber);
+    width: 0%;
+    transition: width 1.2s ease;
+  }
+
+  .progress-markers {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+  }
+
+  .progress-marker {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.5px;
+  }
+
+  .progress-marker.hit { color: var(--amber); }
+
+  /* ── NEXT ── */
+  .next-wrap {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--amber2);
+    padding: 1rem 1.2rem;
+    margin-top: 1.5rem;
+  }
+
+  .next-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .next-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .next-item {
+    font-size: 13.5px;
+    color: var(--text);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .next-item .item-dot { color: var(--amber2); }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 2rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 1px;
+  }
+
+  /* ── SCANLINE ── */
+  .scanline {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .wrap > * {
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .wrap > *:nth-child(1) { animation-delay: 0.05s; }
+  .wrap > *:nth-child(2) { animation-delay: 0.12s; }
+  .wrap > *:nth-child(3) { animation-delay: 0.18s; }
+  .wrap > *:nth-child(4) { animation-delay: 0.24s; }
+  .wrap > *:nth-child(5) { animation-delay: 0.30s; }
+  .wrap > *:nth-child(6) { animation-delay: 0.36s; }
+  .wrap > *:nth-child(7) { animation-delay: 0.42s; }
+
+  .quote-block {
+    border-left: 2px solid var(--amber);
+    padding: 0.5rem 1rem;
+    margin: 0.8rem 0;
+    background: rgba(200,132,42,0.04);
+  }
+
+  .quote-block p {
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<nav style="position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:52px;background:rgba(9,8,13,0.96);border-bottom:1px solid #1e1a2a;font-family:'Share Tech Mono',monospace;">
+  <a href="index.html" style="font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:3px;color:#b0a080;text-decoration:none;">KEYWORD GAMES</a>
+  <a href="index.html#devlog" style="font-size:11px;letter-spacing:1.5px;color:#6a6050;text-decoration:none;text-transform:uppercase;">← Devlog</a>
+</nav>
+
+<div class="scanline"></div>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="game-title">A Última Gravação</div>
+        <div class="game-sub">WALKING SIM · HORROR 3D · GODOT 4.2 · RENDERER COMPATÍVEL</div>
+      </div>
+      <div class="day-tracker" aria-label="Dia 3 de 7">
+        <div class="day-pip done">D1</div>
+        <div class="day-pip done">D2</div>
+        <div class="day-pip active">D3</div>
+        <div class="day-pip">D4</div>
+        <div class="day-pip">D5</div>
+        <div class="day-pip">D6</div>
+        <div class="day-pip">D7</div>
+      </div>
+    </div>
+    <div class="version-row">
+      <span class="tag tag-amber">v0.0.3</span>
+      <span class="tag tag-green">export web · itch.io</span>
+      <span class="tag tag-gray">28 mai 2026</span>
+      <span class="tag tag-gray">KeyWord Games</span>
+    </div>
+  </div>
+
+  <!-- DEVLOG TITLE -->
+  <div style="margin-bottom:1.5rem;">
+    <div class="devlog-title">DIA 3 — FUNDAÇÕES SÓLIDAS E O DEPÓSITO GANHA VIDA</div>
+    <div class="devlog-date">O DIA MAIS DESAFIADOR — E O MAIS RECOMPENSADOR ATÉ AGORA</div>
+  </div>
+
+  <!-- NARRATIVE -->
+  <div class="narrative">
+    <div class="narrative-label">// resumo do dia</div>
+    <p><strong>A batalha das texturas</strong> abriu o dia. As PBRs não apareciam na versão web — diagnóstico: o Godot 4.2 exige que cada PNG seja completamente processado pelo editor, gerando os <code style="font-family:var(--mono);font-size:12px;color:var(--amber)">.ctex</code> internos antes do export WebGL. Com o fluxo corrigido e uma migração para 4.2 pelo caminho, as texturas passaram a funcionar no browser.</p>
+    <p><strong>A porta e o fade.</strong> Modelada do zero com CSGBox3D — marco, batentes e folha — salva como cena reutilizável. O sistema de transição foi reconstruído com Autoload Singleton, resolvendo o problema de troca de cena dentro de callbacks de física. Fade suave e sem erros entre salas.</p>
+    <p><strong>O depósito fala.</strong> Na primeira visita, o jogo pausa e os pensamentos de Marcus Vael aparecem letra a letra. O estado é guardado globalmente — visitas subsequentes não repetem a mensagem.</p>
+    <div class="quote-block">
+      <p>"Alguém esteve aqui recentemente. As caixas foram mexidas. O relatório não mencionava um depósito."</p>
+    </div>
+    <p><strong>Adereços construídos do zero.</strong> Estante metálica enferrujada e caixas de papelão deterioradas, ambos com CSGBox3D e texturas PBR. Seis caixas distribuídas entre chão e prateleiras começam a contar a história de um lugar abandonado às pressas.</p>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+
+    <div class="card card-green">
+      <div class="card-label">sistemas funcionando</div>
+      <ul class="item-list">
+        <li class="item"><span class="item-dot green">✓</span>Transição fade entre cenas (Autoload)</li>
+        <li class="item"><span class="item-dot green">✓</span>Discovery text — 1ª visita ao depósito</li>
+        <li class="item"><span class="item-dot green">✓</span>GameState persiste entre cenas</li>
+        <li class="item"><span class="item-dot green">✓</span>Música ambiente desde intro1</li>
+        <li class="item"><span class="item-dot green">✓</span>Som de porta (AudioStreamPlayer3D)</li>
+        <li class="item"><span class="item-dot green">✓</span>Lâmpada piscando (AnimationPlayer)</li>
+        <li class="item"><span class="item-dot green">✓</span>Texturas PBR no web (5 superfícies)</li>
+        <li class="item"><span class="item-dot green">✓</span>Export Web · itch.io</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-label">cenas ativas</div>
+      <ul class="item-list">
+        <li class="item"><span class="item-dot">▸</span>menu_principal</li>
+        <li class="item"><span class="item-dot">▸</span>intro_1 · intro_2</li>
+        <li class="item"><span class="item-dot">▸</span>estacao_radio</li>
+        <li class="item"><span class="item-dot">▸</span>deposito</li>
+        <li class="item"><span class="item-dot">▸</span>entrada (fora do fluxo — Dia 4)</li>
+        <li class="item"><span class="item-dot">▸</span>porta · estante · caixa_papelao · discovery_text · fade</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-label">autoloads</div>
+      <ul class="item-list">
+        <li class="item"><span class="item-dot">▸</span><span style="font-family:var(--mono);font-size:12px;">Fade</span> — fade.gd</li>
+        <li class="item"><span class="item-dot">▸</span><span style="font-family:var(--mono);font-size:12px;">Musica</span> — musica.gd</li>
+        <li class="item"><span class="item-dot">▸</span><span style="font-family:var(--mono);font-size:12px;">GameState</span> — game_state.gd</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-label">adereços construídos</div>
+      <ul class="item-list">
+        <li class="item"><span class="item-dot">▸</span>Estante metálica — CSGBox3D, metal_ferrugem PBR</li>
+        <li class="item"><span class="item-dot">▸</span>Caixa de papelão fechada — CSGBox3D, cardboard PBR (ambientCG CC0)</li>
+        <li class="item"><span class="item-dot">▸</span>2 instâncias de estante no depósito</li>
+        <li class="item"><span class="item-dot">▸</span>6 instâncias de caixa — chão + prateleiras</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- DEPOSITO ESTADO -->
+  <div class="card-full">
+    <div class="card-label">estado atual · deposito.tscn</div>
+    <ul class="item-list" style="display:grid;grid-template-columns:1fr 1fr;gap:5px 2rem;">
+      <li class="item"><span class="item-dot green">✓</span>Sala 6m × 8m, paredes PBR</li>
+      <li class="item"><span class="item-dot green">✓</span>OmniLight quente + luzFundo</li>
+      <li class="item"><span class="item-dot green">✓</span>Lâmpada piscando animada</li>
+      <li class="item"><span class="item-dot green">✓</span>Porta com som + fade</li>
+      <li class="item"><span class="item-dot green">✓</span>Discovery text na 1ª visita</li>
+      <li class="item"><span class="item-dot green">✓</span>2 estantes metálicas</li>
+      <li class="item"><span class="item-dot green">✓</span>6 caixas de papelão</li>
+      <li class="item"><span class="item-dot green">✓</span>Nó caixas organizado</li>
+    </ul>
+  </div>
+
+  <!-- DÍVIDA TÉCNICA -->
+  <div class="card card-red" style="margin-top:12px;">
+    <div class="card-label">dívida técnica · pendências</div>
+    <ul class="item-list">
+      <li class="item"><span class="item-dot red">!</span>discovery_text_ui.gd duplicado — remover</li>
+      <li class="item"><span class="item-dot red">!</span>entrada.tscn fora do fluxo principal</li>
+      <li class="item"><span class="item-dot red">!</span>ESC libera mouse mas não pausa — behavior a definir</li>
+    </ul>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span>progresso do projeto</span>
+      <span>Dia 3 / 7 — 43%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="pfill"></div>
+    </div>
+    <div class="progress-markers">
+      <span class="progress-marker hit">D1 · base</span>
+      <span class="progress-marker hit">D2 · narrativa</span>
+      <span class="progress-marker hit">D3 · depósito</span>
+      <span class="progress-marker">D4 · interação</span>
+      <span class="progress-marker">D5 · áudio</span>
+      <span class="progress-marker">D6 · polish</span>
+      <span class="progress-marker">D7 · release</span>
+    </div>
+  </div>
+
+  <!-- PRÓXIMO -->
+  <div class="next-wrap">
+    <div class="next-label">// dia 4 — o que vem a seguir</div>
+    <div class="next-items">
+      <div class="next-item"><span class="item-dot">▶</span>Sistema de interação com tecla E — examinar objetos</div>
+      <div class="next-item"><span class="item-dot">▶</span>Primeiro objeto narrativo — bilhete ou lista de frequências</div>
+      <div class="next-item"><span class="item-dot">▶</span>Conectar entrada.tscn ao fluxo estacao_radio → entrada → deposito</div>
+      <div class="next-item"><span class="item-dot">▶</span>Limpar discovery_text_ui.gd duplicado</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>godot 4.2 stable · renderer gl_compatibility · export web</span>
+    <span>keywordgames.itch.io/a-ultima-gravacao</span>
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const el = document.getElementById('pfill');
+      if (el) el.style.width = '43%';
+    }, 400);
+  });
+</script>
+</body>
+</html>

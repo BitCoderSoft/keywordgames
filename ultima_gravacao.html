@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Última Gravação — KeyWord Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --bg:#09080d; --bg2:#0e0c14; --bg3:#13101a;
+  --border:#1e1a2a; --border2:#2a2438;
+  --red:#8b1a1a; --red2:#c02020; --red3:#e04040;
+  --amber:#c8842a; --amber2:#e8a84a;
+  --cream:#d4c8a8; --cream2:#b0a080; --muted:#6a6050; --dark:#352e1e;
+  --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --serif:'Crimson Pro',Georgia,serif;
+}
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--cream); font-family:var(--serif); overflow-x:hidden; }
+body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:999; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); opacity:0.5; }
+nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 3rem; height:60px; background:rgba(9,8,13,0.92); border-bottom:1px solid var(--border); backdrop-filter:blur(8px); }
+.nav-logo { font-family:var(--display); font-size:18px; letter-spacing:3px; color:var(--cream); text-decoration:none; display:flex; align-items:center; gap:10px; }
+.nav-logo img { width:30px; height:30px; object-fit:contain; border-radius:50%; }
+.nav-back { font-family:var(--mono); font-size:11px; letter-spacing:1.5px; color:var(--muted); text-decoration:none; text-transform:uppercase; }
+.nav-back:hover { color:var(--cream); }
+
+.hero-game { min-height:100vh; position:relative; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; padding:80px 4rem 5rem; overflow:hidden; }
+.hero-game-bg { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(9,8,13,0.2) 0%,rgba(9,8,13,0.97) 80%),linear-gradient(to right,rgba(9,8,13,0.6) 40%,transparent 100%); z-index:1; }
+.hero-game-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:saturate(0.5) brightness(0.6); }
+.hero-game-content { position:relative; z-index:2; max-width:650px; }
+.game-status { font-family:var(--mono); font-size:10px; letter-spacing:2px; color:var(--amber2); text-transform:uppercase; margin-bottom:0.8rem; }
+.game-big-title { font-family:var(--display); font-size:clamp(48px,8vw,84px); letter-spacing:4px; line-height:0.95; color:var(--cream); margin-bottom:0.6rem; text-shadow:0 0 60px rgba(200,132,42,0.15); }
+.game-desc-hero { font-size:18px; font-style:italic; color:var(--cream2); line-height:1.7; margin-bottom:2rem; max-width:520px; }
+
+.btn { font-family:var(--mono); font-size:11px; letter-spacing:2px; text-transform:uppercase; text-decoration:none; padding:12px 28px; border:1px solid; transition:all 0.2s; display:inline-block; }
+.btn-primary { border-color:var(--red2); color:var(--red3); background:rgba(139,26,26,0.1); }
+.btn-primary:hover { background:rgba(139,26,26,0.25); color:#ff6060; }
+.btn-amber { border-color:var(--amber); color:var(--amber2); background:rgba(200,132,42,0.08); }
+.btn-amber:hover { background:rgba(200,132,42,0.2); }
+.btn-secondary { border-color:var(--border2); color:var(--muted); }
+.btn-secondary:hover { border-color:var(--cream2); color:var(--cream); }
+
+.content-section { max-width:900px; margin:0 auto; padding:4rem 2rem; }
+.section-label { font-family:var(--mono); font-size:10px; letter-spacing:3px; color:var(--red2); text-transform:uppercase; margin-bottom:0.4rem; }
+.section-title { font-family:var(--display); font-size:clamp(28px,4vw,42px); letter-spacing:3px; color:var(--cream); margin-bottom:2rem; border-bottom:1px solid var(--border); padding-bottom:0.8rem; }
+
+.narrative { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--amber); padding:1.3rem 1.5rem; margin-bottom:2rem; }
+.narrative p { font-size:15px; line-height:1.8; color:var(--cream2); margin-bottom:0.8rem; }
+.narrative p:last-child { margin-bottom:0; }
+.narrative strong { color:var(--cream); font-weight:600; }
+
+.devlog-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem; margin-top:1rem; }
+.devlog-card { background:var(--bg2); border:1px solid var(--border); padding:1.2rem 1.3rem; text-decoration:none; color:inherit; display:block; position:relative; transition:border-color 0.2s,transform 0.2s; }
+.devlog-card::before { content:''; position:absolute; top:0;left:0; width:3px; height:100%; background:var(--amber); opacity:0.5; }
+.devlog-card:hover { border-color:var(--amber); transform:translateX(4px); }
+.devlog-card-day { font-family:var(--mono); font-size:10px; letter-spacing:2px; color:var(--amber2); text-transform:uppercase; margin-bottom:0.4rem; }
+.devlog-card-title { font-family:var(--display); font-size:18px; letter-spacing:1.5px; color:var(--cream); margin-bottom:0.5rem; line-height:1.15; }
+.devlog-card-excerpt { font-size:13px; color:var(--cream2); line-height:1.55; font-style:italic; }
+.devlog-card-meta { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; padding-top:0.7rem; border-top:1px solid var(--border); font-family:var(--mono); font-size:10px; color:var(--muted); }
+
+.wip-notice { background:var(--bg2); border:1px solid var(--border2); border-left:3px solid var(--amber2); padding:1.5rem 2rem; text-align:center; margin-top:2rem; }
+.wip-label { font-family:var(--mono); font-size:9px; letter-spacing:2px; color:var(--amber2); text-transform:uppercase; margin-bottom:0.5rem; }
+.wip-title { font-family:var(--display); font-size:28px; letter-spacing:2px; color:var(--cream); margin-bottom:0.5rem; }
+.wip-text { font-size:14px; font-style:italic; color:var(--muted); margin-bottom:1.5rem; }
+
+footer { border-top:1px solid var(--border); padding:2rem 3rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+.footer-brand { font-family:var(--display); font-size:18px; letter-spacing:3px; color:var(--muted); }
+footer a { font-family:var(--mono); font-size:10px; letter-spacing:1px; color:var(--muted); text-decoration:none; text-transform:uppercase; }
+footer a:hover { color:var(--cream2); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="logo_keyword.png" alt="KeyWord Games">
+    KEYWORD GAMES
+  </a>
+  <a href="index.html" class="nav-back">← Voltar</a>
+</nav>
+
+<div class="hero-game">
+  <img src="img_ultima_gravacao.png" alt="A Última Gravação" class="hero-game-img">
+  <div class="hero-game-bg"></div>
+  <div class="hero-game-content">
+    <div class="game-status">◐ Em Desenvolvimento — Horror 3D · Walking Sim · Web</div>
+    <h1 class="game-big-title">A ÚLTIMA<br>GRAVAÇÃO</h1>
+    <p class="game-desc-hero">Estação 7, 1987. Os equipamentos ainda estão ligados. O rádio está transmitindo. Você não deveria estar aqui.</p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="https://keywordgames.itch.io/a-ultima-gravacao" target="_blank" class="btn btn-amber">[ Jogar no itch.io ]</a>
+      <a href="#devlog" class="btn btn-secondary">[ Devlog ]</a>
+    </div>
+  </div>
+</div>
+
+<div class="content-section">
+  <div class="section-label">// sobre o jogo</div>
+  <h2 class="section-title">A ESTAÇÃO 7</h2>
+
+  <div class="narrative">
+    <p>12 de outubro de 1987. <strong>Marcus Vael</strong>, investigador de patrimônio histórico, é enviado pelo Ministério da Cultura para catalogar os equipamentos da Estação 7 — uma pequena rádio FM desativada há quatro anos no interior de Minas.</p>
+    <p>Trabalho simples. Dois dias, no máximo. O que ninguém disse a Marcus é que a última pessoa enviada aqui nunca entregou o relatório. O que ninguém disse é que os equipamentos ainda estão ligados.</p>
+    <p><strong>São 23h14. Não há ninguém por milhas. E o rádio está transmitindo.</strong></p>
+    <p>Um jogo de terror em primeira pessoa no estilo Walking Simulation. Sem jumpscares. O medo aqui é progressivo, construído em silêncio e ausência.</p>
+  </div>
+
+  <div id="devlog">
+    <div class="section-label">// desenvolvimento em andamento</div>
+    <h2 class="section-title">DEVLOG — 7 DIAS</h2>
+
+    <div class="devlog-grid">
+      <a href="devlog_dia1.html" class="devlog-card">
+        <div class="devlog-card-day">Dia 1 · 26 Mai 2026</div>
+        <div class="devlog-card-title">CRIANDO A BASE DO JOGO</div>
+        <p class="devlog-card-excerpt">Ambiente 3D em primeira pessoa, movimentação WASD, sala principal e menu inicial. O início de tudo.</p>
+        <div class="devlog-card-meta"><span>v0.0.1</span><span>→</span></div>
+      </a>
+      <a href="devlog_dia2.html" class="devlog-card">
+        <div class="devlog-card-day">Dia 2 · 27 Mai 2026</div>
+        <div class="devlog-card-title">NARRATIVA E OS PRIMEIROS PASSOS NO ESCURO</div>
+        <p class="devlog-card-excerpt">Introdução letra a letra, lâmpada com falhas irregulares, fluxo de cenas com fade.</p>
+        <div class="devlog-card-meta"><span>v0.0.2</span><span>→</span></div>
+      </a>
+      <a href="devlog_dia3_v003.html" class="devlog-card">
+        <div class="devlog-card-day">Dia 3 · 28 Mai 2026</div>
+        <div class="devlog-card-title">FUNDAÇÕES SÓLIDAS E O DEPÓSITO GANHA VIDA</div>
+        <p class="devlog-card-excerpt">Texturas PBR no web, estante metálica, caixas de papelão e discovery text.</p>
+        <div class="devlog-card-meta"><span>v0.0.3</span><span>→</span></div>
+      </a>
+      <div class="devlog-card" style="opacity:0.35;cursor:default;">
+        <div class="devlog-card-day">Dia 4 · Em breve</div>
+        <div class="devlog-card-title">SISTEMA DE INTERAÇÃO</div>
+        <p class="devlog-card-excerpt">O jogador examina objetos e lê as primeiras pistas. A história de Marcus começa a se revelar.</p>
+        <div class="devlog-card-meta"><span>v0.0.4</span><span style="color:var(--muted)">em breve</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wip-notice">
+    <div class="wip-label">// status atual</div>
+    <div class="wip-title">EM CONSTRUÇÃO — DIA 3 DE 7</div>
+    <p class="wip-text">Acompanhe o desenvolvimento diariamente. Cada dia um novo devlog, cada versão jogável no browser.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="https://keywordgames.itch.io/a-ultima-gravacao" target="_blank" class="btn btn-amber">[ Jogar v0.0.3 ]</a>
+      <a href="https://keywordgames.itch.io/a-ultima-gravacao/devlog" target="_blank" class="btn btn-secondary">[ Todos os devlogs ]</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-brand">KEYWORD GAMES</span>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;">
+    <a href="https://keywordgames.itch.io" target="_blank">itch.io</a>
+    <a href="index.html">Home</a>
+  </div>
+  <span style="font-family:var(--mono);font-size:10px;color:var(--dark);">© 2026 KeyWord Games</span>
+</footer>
+
+</body>
+</html>
