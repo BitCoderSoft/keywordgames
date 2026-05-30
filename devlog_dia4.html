@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Log v0.0.4 · Dia 4 — A Última Gravação</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#09080d; --bg2:#0e0c14; --bg3:#13101a;
+  --border:#1e1a2a; --border2:#2a2438;
+  --amber:#c8842a; --amber2:#e8a84a; --amber3:#f5d080;
+  --red:#8b2020; --red2:#c02020; --green:#2a5c2a; --green2:#4a9a4a;
+  --text:#c8b898; --text2:#8a7a60; --text3:#5a4e38;
+  --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --serif:'Crimson Pro',Georgia,serif;
+}
+body { background:var(--bg); color:var(--text); font-family:var(--serif); min-height:100vh; padding:0; position:relative; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.6; }
+.scanline { position:fixed; inset:0; pointer-events:none; z-index:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px); }
+
+nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 2rem; height:52px; background:rgba(9,8,13,0.96); border-bottom:1px solid var(--border); }
+.nav-logo { font-family:var(--display); font-size:17px; letter-spacing:3px; color:var(--text2); text-decoration:none; }
+.nav-back { font-family:var(--mono); font-size:11px; letter-spacing:1.5px; color:var(--text3); text-decoration:none; text-transform:uppercase; }
+.nav-back:hover { color:var(--text); }
+
+.wrap { max-width:900px; margin:0 auto; padding:2.5rem 2rem 5rem; position:relative; z-index:1; }
+
+/* HEADER */
+.header { border-bottom:1px solid var(--border2); padding-bottom:1.5rem; margin-bottom:2rem; }
+.header-top { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.2rem; }
+.game-title { font-family:var(--display); font-size:43px; letter-spacing:3px; color:var(--amber2); line-height:1; text-shadow:0 0 40px rgba(200,132,42,0.3); }
+.game-sub { font-family:var(--mono); font-size:12px; color:var(--text3); letter-spacing:2px; margin-top:6px; }
+.day-tracker { display:flex; gap:5px; align-items:center; padding-top:4px; }
+.day-pip { width:30px; height:30px; border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:11px; color:var(--text3); }
+.day-pip.done { background:rgba(42,92,42,0.3); border-color:var(--green2); color:var(--green2); }
+.day-pip.active { background:rgba(200,132,42,0.15); border-color:var(--amber); color:var(--amber2); }
+.version-row { display:flex; gap:10px; flex-wrap:wrap; }
+.tag { font-family:var(--mono); font-size:11px; padding:3px 10px; border:1px solid; letter-spacing:1px; }
+.tag-amber { border-color:var(--amber); color:var(--amber2); background:rgba(200,132,42,0.08); }
+.tag-green { border-color:var(--green2); color:var(--green2); background:rgba(42,92,42,0.1); }
+.tag-gray  { border-color:var(--border2); color:var(--text3); }
+
+.devlog-title { font-family:var(--display); font-size:28px; letter-spacing:2px; color:var(--text); margin-bottom:0.3rem; }
+.devlog-date { font-family:var(--mono); font-size:12px; color:var(--text3); letter-spacing:1px; }
+
+/* STATS BAR */
+.stats-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); margin:1.5rem 0; }
+.stat { background:var(--bg2); padding:1rem 1.2rem; text-align:center; }
+.stat-num { font-family:var(--display); font-size:38px; letter-spacing:2px; color:var(--amber2); line-height:1; }
+.stat-label { font-family:var(--mono); font-size:10px; letter-spacing:1.5px; color:var(--text3); text-transform:uppercase; margin-top:4px; }
+
+/* NARRATIVE */
+.narrative { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--amber); padding:1.3rem 1.5rem; margin:1.5rem 0; }
+.narrative-label { font-family:var(--mono); font-size:10px; letter-spacing:2px; color:var(--text3); text-transform:uppercase; margin-bottom:0.8rem; }
+.narrative p { font-size:16px; line-height:1.8; color:var(--text); margin-bottom:0.8rem; }
+.narrative p:last-child { margin-bottom:0; }
+.narrative strong { color:var(--amber2); font-weight:600; }
+.quote-block { border-left:2px solid var(--amber); padding:0.6rem 1rem; margin:1rem 0; background:rgba(200,132,42,0.04); }
+.quote-block p { font-style:italic; font-size:15px; color:var(--text2); line-height:1.7; }
+
+/* SECTION TITLE */
+.section-divider { font-family:var(--mono); font-size:10px; letter-spacing:3px; color:var(--text3); text-transform:uppercase; margin:2rem 0 1rem; display:flex; align-items:center; gap:12px; }
+.section-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* ELEMENTS GRID */
+.elements-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:12px; margin-bottom:1.5rem; }
+.el-card { background:var(--bg2); border:1px solid var(--border); padding:1.1rem 1.2rem; position:relative; }
+.el-card::before { content:''; position:absolute; top:0;left:0; width:3px; height:100%; background:var(--amber); opacity:0.5; }
+.el-card.green::before { background:var(--green2); opacity:0.7; }
+.el-card.red::before { background:var(--red2); opacity:0.8; }
+.el-title { font-family:var(--display); font-size:18px; letter-spacing:1.5px; color:var(--amber2); margin-bottom:0.4rem; display:flex; align-items:center; gap:8px; }
+.el-icon { font-size:16px; }
+.el-desc { font-size:14px; color:var(--text2); line-height:1.6; margin-bottom:0.8rem; font-style:italic; }
+.tag-row { display:flex; gap:6px; flex-wrap:wrap; }
+.mini-tag { font-family:var(--mono); font-size:9px; letter-spacing:1px; padding:2px 8px; border:1px solid var(--border2); color:var(--text3); text-transform:uppercase; }
+.mini-tag.highlight { border-color:var(--amber); color:var(--amber2); background:rgba(200,132,42,0.08); }
+.mini-tag.green { border-color:var(--green2); color:var(--green2); }
+.mini-tag.red { border-color:var(--red2); color:#e04040; }
+
+/* INTERACTION SYSTEM */
+.system-card { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--red2); padding:1.2rem 1.4rem; margin-bottom:12px; }
+.system-title { font-family:var(--display); font-size:20px; letter-spacing:1.5px; color:var(--text); margin-bottom:0.5rem; display:flex; align-items:center; gap:8px; }
+.system-desc { font-size:14px; color:var(--text2); line-height:1.65; margin-bottom:0.8rem; }
+.code-snippet { background:var(--bg3); border:1px solid var(--border); padding:0.8rem 1rem; margin:0.8rem 0; font-family:var(--mono); font-size:12px; color:var(--amber3); line-height:1.7; border-left:2px solid var(--amber); }
+
+/* CONCEPTS */
+.concepts-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; margin-bottom:1.5rem; }
+.concept-card { background:var(--bg3); border:1px solid var(--border2); padding:1rem 1.1rem; }
+.concept-title { font-family:var(--mono); font-size:12px; letter-spacing:1px; color:var(--amber2); margin-bottom:0.5rem; text-transform:uppercase; }
+.concept-desc { font-size:13px; color:var(--text2); line-height:1.6; }
+
+/* FILES */
+.files-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; margin-bottom:1.5rem; }
+.file-item { background:var(--bg2); border:1px solid var(--border); padding:0.6rem 0.9rem; display:flex; align-items:center; gap:8px; }
+.file-dot { color:var(--green2); font-family:var(--mono); font-size:10px; flex-shrink:0; }
+.file-dot.new { color:var(--amber2); }
+.file-name { font-family:var(--mono); font-size:11px; color:var(--text2); }
+.file-badge { font-family:var(--mono); font-size:9px; padding:1px 6px; border:1px solid; margin-left:auto; flex-shrink:0; }
+.file-badge.new { border-color:var(--amber); color:var(--amber2); }
+.file-badge.upd { border-color:var(--green2); color:var(--green2); }
+
+/* PROGRESS */
+.progress-wrap { margin:1.5rem 0 0.5rem; }
+.progress-meta { display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; color:var(--text3); margin-bottom:6px; letter-spacing:1px; }
+.progress-track { height:4px; background:var(--border2); }
+.progress-fill { height:100%; background:var(--amber); width:0%; transition:width 1.2s ease; }
+.progress-markers { display:flex; justify-content:space-between; margin-top:6px; }
+.progress-marker { font-family:var(--mono); font-size:10px; color:var(--text3); letter-spacing:0.5px; }
+.progress-marker.hit { color:var(--amber); }
+
+/* NEXT */
+.next-wrap { background:var(--bg3); border:1px solid var(--border2); border-left:3px solid var(--amber2); padding:1rem 1.2rem; margin-top:1.5rem; }
+.next-label { font-family:var(--mono); font-size:10px; letter-spacing:2px; color:var(--text3); text-transform:uppercase; margin-bottom:10px; }
+.next-items { display:flex; flex-direction:column; gap:6px; }
+.next-item { font-size:14px; color:var(--text); display:flex; gap:8px; align-items:flex-start; }
+.next-item .dot { color:var(--amber2); font-family:var(--mono); font-size:12px; flex-shrink:0; margin-top:2px; }
+
+/* FOOTER */
+.footer { margin-top:2rem; border-top:1px solid var(--border); padding-top:1rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; font-family:var(--mono); font-size:11px; color:var(--text3); letter-spacing:1px; }
+.footer a { color:var(--text3); text-decoration:none; }
+.footer a:hover { color:var(--text2); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.wrap > * { animation:fadeUp 0.5s ease both; }
+.wrap > *:nth-child(1){animation-delay:0.05s}.wrap > *:nth-child(2){animation-delay:0.1s}.wrap > *:nth-child(3){animation-delay:0.15s}.wrap > *:nth-child(4){animation-delay:0.2s}.wrap > *:nth-child(5){animation-delay:0.25s}.wrap > *:nth-child(6){animation-delay:0.3s}.wrap > *:nth-child(7){animation-delay:0.35s}.wrap > *:nth-child(8){animation-delay:0.4s}
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">KEYWORD GAMES</a>
+  <a href="index.html#devlog" class="nav-back">← Devlog</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="game-title">A Última Gravação</div>
+        <div class="game-sub">WALKING SIM · HORROR 3D · GODOT 4.2 · RENDERER COMPATÍVEL</div>
+      </div>
+      <div class="day-tracker">
+        <div class="day-pip done">D1</div>
+        <div class="day-pip done">D2</div>
+        <div class="day-pip done">D3</div>
+        <div class="day-pip active">D4</div>
+        <div class="day-pip">D5</div>
+        <div class="day-pip">D6</div>
+        <div class="day-pip">D7</div>
+      </div>
+    </div>
+    <div class="version-row">
+      <span class="tag tag-amber">v0.0.4</span>
+      <span class="tag tag-green">export web · itch.io</span>
+      <span class="tag tag-gray">29 mai 2026</span>
+      <span class="tag tag-gray">KeyWord Games</span>
+    </div>
+  </div>
+
+  <!-- DEVLOG TITLE -->
+  <div style="margin-bottom:1.5rem;">
+    <div class="devlog-title">DIA 4 — O RÁDIO FALA</div>
+    <div class="devlog-date">O DIA EM QUE O JOGO GANHOU UMA VOZ — E ELA SABE QUE VOCÊ ESTÁ AQUI</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">dias concluídos</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">elementos modelados</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">materiais criados</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">sistema de interação</div></div>
+  </div>
+
+  <!-- NARRATIVE -->
+  <div class="narrative">
+    <div class="narrative-label">// resumo do dia</div>
+    <p>O Dia 4 foi o mais denso do projeto até agora — e o mais recompensador. A estação de rádio deixou de ser um cenário bonito e se tornou um lugar com história, tensão e presença.</p>
+    <p><strong>A modelagem explodiu.</strong> Oito elementos novos em um dia: mesa de escritório com gaveta aberta usando CSGCombiner Subtraction (primeiro uso de geometria booleana no projeto), rádio transmissor com 4 materiais distintos, microfone vintage, cadeira giratória, pasta de arquivo, mesa redonda e as variantes da mesa principal. A estação agora parece que alguém trabalhava aqui — e saiu às pressas.</p>
+    <p><strong>O sistema de interação foi ao ar.</strong> Raycast da câmera, crosshair central, dica `[ E ] Examinar`, subida de hierarquia para detectar `interagir()`. O padrão que vai governar todas as interações do jogo daqui em diante.</p>
+    <div class="quote-block">
+      <p>"O equipamento está ligado. Quatro anos sem ninguém. Como ainda tem energia? E essa voz... Ela sabe que estou aqui."</p>
+    </div>
+    <p><strong>Marcus Vael fala pela primeira vez.</strong> Ao interagir com o rádio, o chiado toca, o pensamento aparece letra a letra, e ao fechar — a luz vermelha apaga. O rádio sabe que você estava lá.</p>
+  </div>
+
+  <!-- MODELAGEM -->
+  <div class="section-divider">modelagem — elementos criados hoje</div>
+
+  <div class="elements-grid">
+
+    <div class="el-card">
+      <div class="el-title"><span class="el-icon">🗃️</span> Mesa com Gavetas</div>
+      <div class="el-desc">Mesa de escritório anos 80 com tampo, laterais, painel traseiro, 3 gavetas empilhadas e puxadores metálicos. Gaveta aberta com CSGCombiner Subtraction escavando o interior.</div>
+      <div class="tag-row">
+        <span class="mini-tag">mesa.tscn</span>
+        <span class="mini-tag highlight">CSGCombiner Subtraction</span>
+        <span class="mini-tag green">gaveta interativa</span>
+      </div>
+    </div>
+
+    <div class="el-card">
+      <div class="el-title"><span class="el-icon">📻</span> Rádio Transmissor</div>
+      <div class="el-desc">Elemento narrativo central. Corpo metálico, painel frontal, dial de frequência, visor escuro, 3 botões, grade de alto-falante, antena e luz indicadora vermelha com OmniLight3D.</div>
+      <div class="tag-row">
+        <span class="mini-tag">radio.tscn</span>
+        <span class="mini-tag highlight">4 materiais</span>
+        <span class="mini-tag red">elemento narrativo</span>
+        <span class="mini-tag">Emission ativo</span>
+      </div>
+    </div>
+
+    <div class="el-card">
+      <div class="el-title"><span class="el-icon">🎙️</span> Microfone Vintage</div>
+      <div class="el-desc">Microfone de estúdio anos 80 com base pesada, haste fina, cabeça cilíndrica e grade protetora. Cabo inclinado saindo da base. Mistura de CSGBox3D e CSGCylinder3D.</div>
+      <div class="tag-row">
+        <span class="mini-tag">microfone.tscn</span>
+        <span class="mini-tag">CSGCylinder3D + CSGBox3D</span>
+      </div>
+    </div>
+
+    <div class="el-card">
+      <div class="el-title"><span class="el-icon">🪑</span> Cadeira Giratória</div>
+      <div class="el-desc">Cadeira anos 80 com assento, encosto, apoios de braço, coluna metálica e base estrela com 5 braços. Levemente girada — como se alguém tivesse se levantado às pressas.</div>
+      <div class="tag-row">
+        <span class="mini-tag">cadeira.tscn</span>
+        <span class="mini-tag highlight">rotação Y para narrativa</span>
+        <span class="mini-tag green">storytelling ambiental</span>
+      </div>
+    </div>
+
+    <div class="el-card">
+      <div class="el-title"><span class="el-icon">📁</span> Pasta de Arquivo</div>
+      <div class="el-desc">Pasta anos 80 com corpo achatado, lombada e aba superior simulando papéis internos. Material mostarda envelhecido. Versátil — instanciada deitada, empilhada ou em pé nas estantes.</div>
+      <div class="tag-row">
+        <span class="mini-tag">pasta.tscn</span>
+        <span class="mini-tag highlight">instância múltipla</span>
+      </div>
+    </div>
+
+    <div class="el-card">
+      <div class="el-title"><span class="el-icon">🔵</span> Mesa Redonda</div>
+      <div class="el-desc">Mesa redonda com tampo cilíndrico, coluna central e base circular. Apenas 3 nós — simples, limpo e funcional. Decorativa para compor o ambiente.</div>
+      <div class="tag-row">
+        <span class="mini-tag">mesaRedonda.tscn</span>
+        <span class="mini-tag">CSGCylinder3D</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SISTEMA DE INTERAÇÃO -->
+  <div class="section-divider">sistema de interação — implementado hoje</div>
+
+  <div class="system-card">
+    <div class="system-title">🎯 RayCast + Crosshair + Tecla E</div>
+    <div class="system-desc">Sistema completo de interação em primeira pessoa. RayCast disparado a cada frame pela câmera com alcance de 2 metros. Sobe hierarquia de nós para encontrar método <code style="font-family:var(--mono);font-size:12px;color:var(--amber2);">interagir()</code>. Crosshair central muda de cor quando detecta objeto interagível. Dica <strong>[ E ] Examinar</strong> aparece na tela. Tecla E aciona <code style="font-family:var(--mono);font-size:12px;color:var(--amber2);">interagir()</code> do objeto focado.</div>
+    <div class="code-snippet">var resultado = espaco.intersect_ray(query)
+if resultado and resultado.collider.has_method("interagir"):
+    hud.mostrar_dica()
+    if Input.is_action_just_pressed("interagir"):
+        resultado.collider.interagir()</div>
+    <div class="tag-row">
+      <span class="mini-tag highlight">PhysicsRayQueryParameters3D</span>
+      <span class="mini-tag highlight">has_method("interagir")</span>
+      <span class="mini-tag green">subida de hierarquia</span>
+      <span class="mini-tag">input action → E</span>
+    </div>
+  </div>
+
+  <div class="system-card">
+    <div class="system-title">📻 Rádio Interativo — primeiro objeto narrativo</div>
+    <div class="system-desc">Primeira interação: chiado toca, discovery text exibe pensamento de Marcus. Ao fechar — luz apaga e chiado para. Flag <code style="font-family:var(--mono);font-size:12px;color:var(--amber2);">radio_primeira_vez</code> salva no GameState. Interações seguintes: alterna liga/desliga com estática. Chiado posicional via AudioStreamPlayer3D — audível só perto da mesa, some com distância.</div>
+    <div class="tag-row">
+      <span class="mini-tag highlight">AudioStreamPlayer3D</span>
+      <span class="mini-tag highlight">sinal fechou</span>
+      <span class="mini-tag green">GameState</span>
+      <span class="mini-tag red">primeiro evento narrativo</span>
+    </div>
+  </div>
+
+  <!-- CONCEITOS -->
+  <div class="section-divider">conceitos-chave aprendidos hoje</div>
+
+  <div class="concepts-grid">
+    <div class="concept-card">
+      <div class="concept-title">CSGCombiner Subtraction — geometria booleana</div>
+      <div class="concept-desc">Para escavar um volume dentro de outro — o objeto a subtrair precisa "vazar" levemente para fora do objeto pai. Aplica em qualquer situação: buracos em paredes, janelas, gavetas abertas, interruptores encaixados.</div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-title">has_method() — duck typing</div>
+      <div class="concept-desc">Em vez de verificar o tipo do objeto, verifica se ele tem o método que você precisa. Qualquer objeto com interagir() vira interagível automaticamente — sem herança, sem interface formal. Padrão muito usado em GDScript.</div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-title">Emission — materiais que brilham</div>
+      <div class="concept-desc">O canal Emission faz o material emitir luz própria independente da iluminação da cena. Essencial para LEDs, telas, bulbos, displays. Combinado com OmniLight3D cria o efeito de luz real projetada no ambiente.</div>
+    </div>
+  </div>
+
+  <!-- ARQUIVOS -->
+  <div class="section-divider">arquivos novos e modificados</div>
+
+  <div class="files-grid">
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">hud.tscn</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">hud.gd</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">radio.gd</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">mesa.tscn</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">microfone.tscn</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">cadeira.tscn</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">pasta.tscn</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">mesaRedonda.tscn</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot">▸</span><span class="file-name">jogador.gd</span><span class="file-badge upd">atualizado</span></div>
+    <div class="file-item"><span class="file-dot">▸</span><span class="file-name">discovery_text.gd</span><span class="file-badge upd">atualizado</span></div>
+    <div class="file-item"><span class="file-dot">▸</span><span class="file-name">radio.tscn</span><span class="file-badge upd">atualizado</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">metal_escovado.tres</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">plastico_escuro.tres</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">vidro_escuro.tres</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot new">▸</span><span class="file-name">luz_indicadora.tres</span><span class="file-badge new">novo</span></div>
+    <div class="file-item"><span class="file-dot">▸</span><span class="file-name">InputMap → tecla E</span><span class="file-badge upd">atualizado</span></div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-meta"><span>progresso do projeto</span><span>Dia 4 / 7 — 57%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-markers">
+      <span class="progress-marker hit">D1 · base</span>
+      <span class="progress-marker hit">D2 · narrativa</span>
+      <span class="progress-marker hit">D3 · depósito</span>
+      <span class="progress-marker hit">D4 · interação</span>
+      <span class="progress-marker">D5 · áudio</span>
+      <span class="progress-marker">D6 · polish</span>
+      <span class="progress-marker">D7 · release</span>
+    </div>
+  </div>
+
+  <!-- PRÓXIMO DIA -->
+  <div class="next-wrap">
+    <div class="next-label">// dia 5 — planejado</div>
+    <div class="next-items">
+      <div class="next-item"><span class="dot">▶</span>Lâmpada de teto — modelo + reativar AnimationPlayer do piscar</div>
+      <div class="next-item"><span class="dot">▶</span>Mesa de som mixer — elemento mais complexo, 8 canais com faders e knobs</div>
+      <div class="next-item"><span class="dot">▶</span>Gaveta interativa — abre/fecha + documento coletável dentro</div>
+      <div class="next-item"><span class="dot">▶</span>Sons de passos — AudioStreamPlayer sincronizado com ciclo de caminhada</div>
+      <div class="next-item"><span class="dot">▶</span>Pensamentos da estrada — Discovery texts por proximidade na entrada.tscn</div>
+      <div class="next-item"><span class="dot">▶</span>Gravação da voz — transmissão do rádio com voz do investigador anterior</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>godot 4.2 stable · renderer gl_compatibility · export web</span>
+    <span><a href="https://keywordgames.itch.io/a-ultima-gravacao" target="_blank">itch.io ↗</a></span>
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => { const el = document.getElementById('pfill'); if(el) el.style.width = '57%'; }, 400);
+  });
+</script>
+</body>
+</html>
