@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Log v0.0.5 · Dia 5 — A Última Gravação</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#09080d; --bg2:#0e0c14; --bg3:#13101a;
+  --border:#1e1a2a; --border2:#2a2438;
+  --amber:#c8842a; --amber2:#e8a84a; --amber3:#f5d080;
+  --red:#8b2020; --red2:#c02020; --green:#2a5c2a; --green2:#4a9a4a;
+  --text:#c8b898; --text2:#8a7a60; --text3:#5a4e38;
+  --mono:'Share Tech Mono',monospace; --display:'Bebas Neue',sans-serif; --serif:'Crimson Pro',Georgia,serif;
+}
+body { background:var(--bg); color:var(--text); font-family:var(--serif); min-height:100vh; padding:0; position:relative; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.6; }
+.scanline { position:fixed; inset:0; pointer-events:none; z-index:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px); }
+
+nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 2rem; height:52px; background:rgba(9,8,13,0.96); border-bottom:1px solid var(--border); }
+.nav-logo { font-family:var(--display); font-size:17px; letter-spacing:3px; color:var(--text2); text-decoration:none; }
+.nav-back { font-family:var(--mono); font-size:11px; letter-spacing:1.5px; color:var(--text3); text-decoration:none; text-transform:uppercase; }
+.nav-back:hover { color:var(--text); }
+
+.wrap { max-width:900px; margin:0 auto; padding:2.5rem 2rem 5rem; position:relative; z-index:1; }
+
+.header { border-bottom:1px solid var(--border2); padding-bottom:1.5rem; margin-bottom:2rem; }
+.header-top { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.2rem; }
+.game-title { font-family:var(--display); font-size:43px; letter-spacing:3px; color:var(--amber2); line-height:1; text-shadow:0 0 40px rgba(200,132,42,0.3); }
+.game-sub { font-family:var(--mono); font-size:12px; color:var(--text3); letter-spacing:2px; margin-top:6px; }
+.day-tracker { display:flex; gap:5px; align-items:center; padding-top:4px; }
+.day-pip { width:30px; height:30px; border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:11px; color:var(--text3); }
+.day-pip.done { background:rgba(42,92,42,0.3); border-color:var(--green2); color:var(--green2); }
+.day-pip.active { background:rgba(200,132,42,0.15); border-color:var(--amber); color:var(--amber2); }
+.version-row { display:flex; gap:10px; flex-wrap:wrap; }
+.tag { font-family:var(--mono); font-size:11px; padding:3px 10px; border:1px solid; letter-spacing:1px; }
+.tag-amber { border-color:var(--amber); color:var(--amber2); background:rgba(200,132,42,0.08); }
+.tag-green { border-color:var(--green2); color:var(--green2); background:rgba(42,92,42,0.1); }
+.tag-gray  { border-color:var(--border2); color:var(--text3); }
+
+.devlog-title { font-family:var(--display); font-size:28px; letter-spacing:2px; color:var(--text); margin-bottom:0.3rem; }
+.devlog-date { font-family:var(--mono); font-size:12px; color:var(--text3); letter-spacing:1px; }
+
+.stats-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); margin:1.5rem 0; }
+.stat { background:var(--bg2); padding:1rem 1.2rem; text-align:center; }
+.stat-num { font-family:var(--display); font-size:38px; letter-spacing:2px; color:var(--amber2); line-height:1; }
+.stat-label { font-family:var(--mono); font-size:10px; letter-spacing:1.5px; color:var(--text3); text-transform:uppercase; margin-top:4px; }
+
+.narrative { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--amber); padding:1.3rem 1.5rem; margin:1.5rem 0; }
+.narrative-label { font-family:var(--mono); font-size:10px; letter-spacing:2px; color:var(--text3); text-transform:uppercase; margin-bottom:0.8rem; }
+.narrative p { font-size:16px; line-height:1.8; color:var(--text); margin-bottom:0.8rem; }
+.narrative p:last-child { margin-bottom:0; }
+.narrative strong { color:var(--amber2); font-weight:600; }
+
+.quote-block { border-left:2px solid var(--amber); padding:0.6rem 1rem; margin:1rem 0; background:rgba(200,132,42,0.04); }
+.quote-block p { font-style:italic; font-size:15px; color:var(--text2); line-height:1.7; }
+
+.section-divider { font-family:var(--mono); font-size:10px; letter-spacing:3px; color:var(--text3); text-transform:uppercase; margin:2rem 0 1rem; display:flex; align-items:center; gap:12px; }
+.section-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:12px; margin-bottom:1.5rem; }
+.card { background:var(--bg2); border:1px solid var(--border); padding:1.1rem 1.2rem; position:relative; }
+.card::before { content:''; position:absolute; top:0;left:0; width:3px; height:100%; background:var(--amber); opacity:0.5; }
+.card.green::before { background:var(--green2); opacity:0.7; }
+.card.red::before { background:var(--red2); opacity:0.8; }
+.card.purple::before { background:#7a4aaa; opacity:0.8; }
+.card-title { font-family:var(--display); font-size:18px; letter-spacing:1.5px; color:var(--amber2); margin-bottom:0.4rem; }
+.card-desc { font-size:14px; color:var(--text2); line-height:1.65; margin-bottom:0.8rem; font-style:italic; }
+.tag-row { display:flex; gap:6px; flex-wrap:wrap; }
+.mini-tag { font-family:var(--mono); font-size:9px; letter-spacing:1px; padding:2px 8px; border:1px solid var(--border2); color:var(--text3); text-transform:uppercase; }
+.mini-tag.hi  { border-color:var(--amber); color:var(--amber2); background:rgba(200,132,42,0.08); }
+.mini-tag.gr  { border-color:var(--green2); color:var(--green2); }
+.mini-tag.rd  { border-color:#e05555; color:#f07070; }
+.mini-tag.pu  { border-color:#9a6acc; color:#c09aee; }
+
+.fix-card { background:var(--bg3); border:1px solid var(--border2); border-left:3px solid var(--text3); padding:1rem 1.2rem; margin-bottom:10px; }
+.fix-title { font-family:var(--mono); font-size:11px; letter-spacing:1.5px; color:var(--text2); text-transform:uppercase; margin-bottom:0.5rem; }
+.fix-desc { font-size:13px; color:var(--text3); line-height:1.6; }
+
+.progress-wrap { margin:1.5rem 0 0.5rem; }
+.progress-meta { display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; color:var(--text3); margin-bottom:6px; letter-spacing:1px; }
+.progress-track { height:4px; background:var(--border2); }
+.progress-fill { height:100%; background:var(--amber); width:0%; transition:width 1.2s ease; }
+.progress-markers { display:flex; justify-content:space-between; margin-top:6px; }
+.progress-marker { font-family:var(--mono); font-size:10px; color:var(--text3); letter-spacing:0.5px; }
+.progress-marker.hit { color:var(--amber); }
+
+.next-wrap { background:var(--bg3); border:1px solid var(--border2); border-left:3px solid var(--amber2); padding:1rem 1.2rem; margin-top:1.5rem; }
+.next-label { font-family:var(--mono); font-size:10px; letter-spacing:2px; color:var(--text3); text-transform:uppercase; margin-bottom:10px; }
+.next-items { display:flex; flex-direction:column; gap:7px; }
+.next-item { font-size:14px; color:var(--text); display:flex; gap:8px; align-items:flex-start; }
+.next-item .dot { color:var(--amber2); font-family:var(--mono); font-size:12px; flex-shrink:0; margin-top:2px; }
+
+.footer { margin-top:2rem; border-top:1px solid var(--border); padding-top:1rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; font-family:var(--mono); font-size:11px; color:var(--text3); letter-spacing:1px; }
+.footer a { color:var(--text3); text-decoration:none; }
+.footer a:hover { color:var(--text2); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.wrap > * { animation:fadeUp 0.5s ease both; }
+.wrap > *:nth-child(1){animation-delay:0.05s}.wrap > *:nth-child(2){animation-delay:0.1s}.wrap > *:nth-child(3){animation-delay:0.15s}.wrap > *:nth-child(4){animation-delay:0.2s}.wrap > *:nth-child(5){animation-delay:0.25s}.wrap > *:nth-child(6){animation-delay:0.3s}.wrap > *:nth-child(7){animation-delay:0.35s}.wrap > *:nth-child(8){animation-delay:0.4s}.wrap > *:nth-child(9){animation-delay:0.45s}
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">KEYWORD GAMES</a>
+  <a href="index.html#devlog" class="nav-back">← Devlog</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="game-title">A Última Gravação</div>
+        <div class="game-sub">WALKING SIM · HORROR 3D · GODOT 4.2 · RENDERER COMPATÍVEL</div>
+      </div>
+      <div class="day-tracker">
+        <div class="day-pip done">D1</div>
+        <div class="day-pip done">D2</div>
+        <div class="day-pip done">D3</div>
+        <div class="day-pip done">D4</div>
+        <div class="day-pip active">D5</div>
+        <div class="day-pip">D6</div>
+        <div class="day-pip">D7</div>
+      </div>
+    </div>
+    <div class="version-row">
+      <span class="tag tag-amber">v0.0.5</span>
+      <span class="tag tag-green">export web · itch.io</span>
+      <span class="tag tag-gray">30 mai 2026</span>
+      <span class="tag tag-gray">KeyWord Games</span>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <div class="devlog-title">DIA 5 — A VOZ DO RÁDIO</div>
+    <div class="devlog-date">O DIA EM QUE A ESTAÇÃO 7 COMEÇOU A FALAR</div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">dias concluídos</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">sistemas novos</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">objetos narrativos</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">voz gravada</div></div>
+  </div>
+
+  <div class="narrative">
+    <div class="narrative-label">// resumo do dia</div>
+    <p>O Dia 5 foi o dia em que a Estação 7 deixou de ser um cenário e se tornou um lugar com memória.</p>
+    <p><strong>A voz.</strong> Ao interagir com o rádio pela primeira vez, o jogo pausa, o chiado continua e o texto de Marcus aparece letra a letra. Nos reticências — "Como esse equipamento ainda está ligado?..." — uma voz entra. A voz do investigador anterior. Gravada, distorcida, transmitindo de algum lugar que não deveria existir mais. Após terminar, o discovery fecha e o rádio desliga. Ela já disse o que tinha a dizer.</p>
+    <p><strong>O documento.</strong> A primeira gaveta da mesa é interativa. O log de transmissões de 1983 está lá dentro — assinado por J. Carvalho, com a última entrada escrita à mão no dia depois do encerramento oficial: <em>"Ela ainda transmite. Eu ainda ouço."</em> Após a leitura, o documento some da cena.</p>
+    <div class="quote-block">
+      <p>"19/03/1983 — Ela ainda transmite. Eu ainda ouço."<br>— J. Carvalho, operador da Estação 7</p>
+    </div>
+    <p><strong>O desfecho tem estrutura.</strong> Um checklist silencioso no GameState monitora 5 condições em segundo plano. O jogador não sabe que está sendo rastreado. Quando todas as peças estiverem no lugar — o final se torna possível.</p>
+  </div>
+
+  <div class="section-divider">o que foi construído hoje</div>
+
+  <div class="cards-grid">
+
+    <div class="card purple">
+      <div class="card-title">🖼️ Discovery Text — Zona de Imagem</div>
+      <div class="card-desc">Sistema expandido com zona superior para exibir imagem do objeto examinado. Fundo escuro e zona de imagem só aparecem quando há imagem — comportamento anterior preservado para textos sem imagem. HUD oculto automaticamente durante o discovery.</div>
+      <div class="tag-row">
+        <span class="mini-tag">TextureRect</span>
+        <span class="mini-tag hi">zona de imagem opcional</span>
+        <span class="mini-tag gr">HUD oculto durante pausa</span>
+      </div>
+    </div>
+
+    <div class="card green">
+      <div class="card-title">🗃️ Gaveta Interativa + Documento</div>
+      <div class="card-desc">Gaveta fecha/abre via visible swap + use_collision controlado por script. Documento aparece ao abrir, exibe discovery com imagem do log de transmissões e some da cena após examinar. CSGCombiner Subtraction escavando o interior da gaveta aberta.</div>
+      <div class="tag-row">
+        <span class="mini-tag hi">is_instance_valid()</span>
+        <span class="mini-tag hi">use_collision via script</span>
+        <span class="mini-tag">queue_free()</span>
+        <span class="mini-tag rd">log de transmissões 1983</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📰 Jornal Interativo</div>
+      <div class="card-desc">Matéria de jornal de 1983 sobre os acontecimentos bizarros da Estação 7. Exibe imagem conceitual + pensamento de Marcus. Não é destruído — pode ser examinado múltiplas vezes. Flag salva no GameState na primeira leitura.</div>
+      <div class="tag-row">
+        <span class="mini-tag rd">pista narrativa de 1983</span>
+        <span class="mini-tag hi">interação sem destruição</span>
+      </div>
+    </div>
+
+    <div class="card green">
+      <div class="card-title">✅ GameState — Checklist do Final</div>
+      <div class="card-desc">Dicionário checklist_final com 5 chaves — todas precisam ser true para o final ser liberado. marcar_checklist() salva nos dois dicionários simultaneamente. _verificar_final() chamado automaticamente a cada marcação.</div>
+      <div class="tag-row">
+        <span class="mini-tag hi">Dictionary checklist</span>
+        <span class="mini-tag gr">flags + checklist separados</span>
+        <span class="mini-tag gr">verificação automática</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👣 Sons de Passos</div>
+      <div class="card-desc">AudioStreamPlayer sincronizado com o movimento real do personagem. Detecta deslocamento via distance_to() — não toca ao travar em colisão. Timer de 0.45s entre passos, começa em 0.15s para primeiro passo imediato. Velocidade de caminhada ajustada para 1.7.</div>
+      <div class="tag-row">
+        <span class="mini-tag">AudioStreamPlayer</span>
+        <span class="mini-tag hi">distance_to() movimento real</span>
+        <span class="mini-tag">timer de intervalo</span>
+      </div>
+    </div>
+
+    <div class="card red">
+      <div class="card-title">📻 Voz do Rádio Integrada</div>
+      <div class="card-desc">Voz do investigador anterior gravada e integrada. Fluxo: jogo pausa → delay 0.3s → discovery abre com chiado → timer 1.64s → voz entra nos "..." do texto — sincronia entre texto e áudio. Após discovery fechar tudo desliga. Interações seguintes só alternam liga/desliga.</div>
+      <div class="tag-row">
+        <span class="mini-tag">AudioStreamPlayer3D</span>
+        <span class="mini-tag hi">await voz.finished</span>
+        <span class="mini-tag hi">sincronia texto + áudio</span>
+        <span class="mini-tag rd">voz do investigador anterior</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-divider">ajustes e correções</div>
+
+  <div class="fix-card">
+    <div class="fix-title">🔧 Fixes do sistema</div>
+    <div class="fix-desc">ESPAÇO para fechar discovery. Sons continuam durante pausa (Process Mode Always). Loop da estática ativado na importação. marcar_checklist() corrigido para salvar em flags e checklist_final simultaneamente — resolvendo bug onde ja_viu() sempre retornava false para chaves do checklist.</div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-meta"><span>progresso do projeto</span><span>Dia 5 / 7 — 71%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-markers">
+      <span class="progress-marker hit">D1 · base</span>
+      <span class="progress-marker hit">D2 · narrativa</span>
+      <span class="progress-marker hit">D3 · depósito</span>
+      <span class="progress-marker hit">D4 · interação</span>
+      <span class="progress-marker hit">D5 · voz</span>
+      <span class="progress-marker">D6 · desfecho</span>
+      <span class="progress-marker">D7 · release</span>
+    </div>
+  </div>
+
+  <div class="next-wrap">
+    <div class="next-label">// dia 6 — planejado</div>
+    <div class="next-items">
+      <div class="next-item"><span class="dot">▶</span>Diário do depósito — objeto narrativo mais importante, entradas do investigador anterior</div>
+      <div class="next-item"><span class="dot">▶</span>Pensamentos da estrada — discovery texts por proximidade + conectar entrada.tscn ao fluxo</div>
+      <div class="next-item"><span class="dot">▶</span>Lâmpada piscando — reativar AnimationPlayer com modelo novo</div>
+      <div class="next-item"><span class="dot">▶</span>Final do jogo — implementar o desfecho quando checklist completo</div>
+      <div class="next-item"><span class="dot">▶</span>Export + devlog v0.0.6</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>godot 4.2 stable · renderer gl_compatibility · export web</span>
+    <span><a href="https://keywordgames.itch.io/a-ultima-gravacao" target="_blank">itch.io ↗</a></span>
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => { const el = document.getElementById('pfill'); if(el) el.style.width = '71%'; }, 400);
+  });
+</script>
+</body>
+</html>
