@@ -300,7 +300,7 @@ section {
 }
 
 .status-released { color: var(--red2); }
-.status-wip      { color: #c8842a; }
+.status-released      { color: #c8842a; }
 
 .game-card-title {
   font-family: var(--display);
@@ -693,7 +693,7 @@ footer a:hover { color: var(--cream2); }
     <a href="ultima_gravacao.html" class="game-card">
       <img src="img_ultima_gravacao.png" alt="A Última Gravação" class="game-card-img">
       <div class="game-card-body">
-        <div class="game-card-status status-wip">◐ Em Desenvolvimento</div>
+        <div class="game-card-status status-released">● Disponível</div>
         <div class="game-card-title">A ÚLTIMA GRAVAÇÃO</div>
         <p class="game-card-desc">Estação 7, 1987. Os equipamentos ainda estão ligados. O rádio está transmitindo. Você não deveria estar aqui.</p>
         <div class="game-card-tags">
@@ -703,7 +703,7 @@ footer a:hover { color: var(--cream2); }
         </div>
         <div class="game-card-cta">
           <span class="game-card-link">Acompanhar →</span>
-          <span class="wip-badge">WIP · 7 dias</span>
+          <span class="wip-badge">v1.0.0 · completo</span>
         </div>
       </div>
     </a>
@@ -798,15 +798,15 @@ footer a:hover { color: var(--cream2); }
       </div>
     </a>
 
-    <div class="devlog-card" style="opacity:0.4;cursor:default;">
-      <div class="devlog-card-day">Dia 7 · Em breve</div>
-      <div class="devlog-card-title">O FIM DA TRANSMISSÃO</div>
-      <p class="devlog-card-excerpt">Diário do investigador anterior, lâmpada piscando, final do jogo e export v1.0. A Estação 7 está quase completa.</p>
+    <a href="devlog_dia7.html" class="devlog-card" style="border-color:#3a1515;">
+      <div class="devlog-card-day" style="color:#f07070;">Dia 7 · 02 Jun 2026 · FINAL</div>
+      <div class="devlog-card-title">A ESTAÇÃO ESTÁ COMPLETA</div>
+      <p class="devlog-card-excerpt">Telefone que toca, objeto narrativo do depósito, desfecho implementado, 9 condições no checklist. Sete dias, um jogo completo.</p>
       <div class="devlog-card-meta">
-        <span class="devlog-card-version">v1.0</span>
-        <span style="font-family:var(--mono);font-size:10px;color:var(--muted);">em construção</span>
+        <span class="devlog-card-version" style="color:#f07070;">v1.0.0 · publicado</span>
+        <span>→</span>
       </div>
-    </div>
+    </a>
 
   </div>
 </section>
