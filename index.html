@@ -549,6 +549,82 @@ footer a:hover { color: var(--cream2); }
   border-top: 1px solid var(--border);
   margin: 0;
 }
+
+/* ── devlog sub-label (separa fileiras) ── */
+.devlog-sublabel {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  padding-left: 2px;
+  opacity: 0.7;
+}
+
+/* ── card de destaque (post geral / reflexão) ── */
+.devlog-card-feature {
+  border-left: 3px solid var(--red2);
+  background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+}
+
+.devlog-card-feature::before {
+  background: var(--red2);
+  opacity: 0.8;
+}
+
+.devlog-card-feature .devlog-card-title {
+  font-size: 22px;
+  color: var(--cream);
+}
+
+.devlog-card-feature .devlog-card-day {
+  color: var(--red3);
+}
+
+/* ── section-title legibilidade melhorada ── */
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(36px, 5.5vw, 58px);
+  letter-spacing: 4px;
+  color: var(--cream);
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+  text-shadow: 0 0 40px rgba(212,200,168,0.08);
+}
+
+/* ── devlog sub-label (separa fileiras) ── */
+.devlog-sublabel {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  padding-left: 2px;
+  opacity: 0.7;
+}
+
+/* ── card de destaque (post geral / reflexão) ── */
+.devlog-card-feature {
+  border-left: 3px solid var(--red2);
+  background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+}
+
+.devlog-card-feature::before {
+  background: var(--red2);
+  opacity: 0.8;
+}
+
+.devlog-card-feature .devlog-card-title {
+  font-size: 22px;
+  color: var(--cream);
+}
+
+.devlog-card-feature .devlog-card-day {
+  color: var(--red3);
+}
 </style>
 </head>
 <body>
@@ -639,9 +715,27 @@ footer a:hover { color: var(--cream2); }
 
 <!-- DEVLOG -->
 <section id="devlog" class="devlog-section">
-  <div class="section-label">// a última gravação</div>
-  <h2 class="section-title">DEVLOG</h2>
+  <div class="section-label">// diário de desenvolvimento</div>
+  <h2 class="section-title">DEVLOGS</h2>
 
+  <!-- ── Fileira: Postagens gerais (O Vazio, reflexões, etc.) ── -->
+  <div class="devlog-sublabel">// o vazio que respira</div>
+  <div class="devlog-grid devlog-grid-general" style="margin-bottom:3rem;">
+
+    <a href="devlog_vazio.html" class="devlog-card devlog-card-feature">
+      <div class="devlog-card-day">Reflexão · 31 Mai 2026</div>
+      <div class="devlog-card-title">O PRIMEIRO</div>
+      <p class="devlog-card-excerpt">Anos de estudo, projetos pela metade e ferramentas diferentes. O Vazio que Respira é o primeiro jogo completo e publicado — feito do zero, com HTML, CSS e JavaScript.</p>
+      <div class="devlog-card-meta">
+        <span class="devlog-card-version">post · devlog</span>
+        <span class="devlog-card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ── Fileira: A Última Gravação ── -->
+  <div class="devlog-sublabel">// a última gravação</div>
   <div class="devlog-grid">
 
     <a href="devlog_dia1.html" class="devlog-card">
@@ -713,6 +807,40 @@ footer a:hover { color: var(--cream2); }
         <span style="font-family:var(--mono);font-size:10px;color:var(--muted);">em construção</span>
       </div>
     </div>
+
+  </div>
+</section>
+
+<hr class="divider" style="margin-top:2rem;">
+
+<!-- SOBRE -->
+<div class="about-section" id="sobre" style="max-width:1100px;margin:0 auto;padding:4rem 2rem 5rem;">
+  <img src="logo_keyword.png" alt="KeyWord Games" class="about-logo">
+  <div class="about-text">
+    <div class="section-label">// sobre</div>
+    <h2 class="section-title">KEYWORD GAMES</h2>
+    <p>Estúdio independente explorando <strong>terror, RPG e aventura</strong> através de experiências narrativas intensas.</p>
+    <p>O processo de estudo é público — cada jogo publicado representa um ciclo de aprendizado documentado em devlogs diários, cobrindo <strong>pixel art, mecânicas, narrativa, atmosfera</strong> e arquitetura de código.</p>
+    <p>Ferramentas: <strong>Godot Engine, Unity, RPG Maker</strong> — e projetos sem engine para aprofundar fundamentos técnicos.</p>
+    <div class="about-links">
+      <a href="https://keywordgames.itch.io" target="_blank" class="btn btn-primary">[ itch.io ]</a>
+      <a href="https://www.instagram.com/keyword_games/" target="_blank" class="btn btn-secondary">[ Instagram ]</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">KEYWORD GAMES</span>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;">
+    <a href="https://keywordgames.itch.io" target="_blank">itch.io</a>
+    <a href="https://www.instagram.com/keyword_games/" target="_blank">Instagram</a>
+  </div>
+  <span class="footer-meta">© 2026 KeyWord Games · Todos os direitos reservados</span>
+</footer>
+
+</body>
+</html>
 
   </div>
 </section>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Primeiro — Devlog · O Vazio que Respira · KeyWord Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#09080d; --bg2:#0e0c14; --bg3:#13101a;
+  --border:#1e1a2a; --border2:#2a2438;
+  --red:#8b1a1a; --red2:#e05555; --red3:#f07070;
+  --cream:#d4c8a8; --cream2:#b0a080; --muted:#6a6050; --dark:#352e1e;
+  --mono:'Share Tech Mono',monospace;
+  --display:'Bebas Neue',sans-serif;
+  --serif:'Crimson Pro',Georgia,serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--serif);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* grain */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.6;
+}
+
+.scanline {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+}
+
+/* nav */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 52px;
+  background: rgba(9,8,13,0.96);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--display); font-size: 17px;
+  letter-spacing: 3px; color: var(--cream2); text-decoration: none;
+}
+.nav-back {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 1.5px; color: var(--muted); text-decoration: none;
+}
+.nav-back:hover { color: var(--cream); }
+
+/* wrap */
+.wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+  position: relative; z-index: 1;
+}
+
+/* header do post */
+.header {
+  border-bottom: 1px solid var(--border2);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+.header-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 1rem;
+  flex-wrap: wrap; margin-bottom: 1.2rem;
+}
+.game-title {
+  font-family: var(--display); font-size: 39px;
+  letter-spacing: 3px; color: var(--red2); line-height: 1;
+  text-shadow: 0 0 40px rgba(224,85,85,0.25);
+}
+.game-sub {
+  font-family: var(--mono); font-size: 12px;
+  color: var(--muted); letter-spacing: 2px; margin-top: 6px;
+}
+.version-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.tag {
+  font-family: var(--mono); font-size: 11px;
+  padding: 3px 10px; border: 1px solid; letter-spacing: 1px;
+}
+.tag-red   { border-color: var(--red2); color: var(--red3); background: rgba(139,26,26,0.1); }
+.tag-gray  { border-color: var(--border2); color: var(--muted); }
+.tag-cream { border-color: var(--dark); color: var(--cream2); background: rgba(212,200,168,0.05); }
+
+.post-title {
+  font-family: var(--display); font-size: 44px;
+  letter-spacing: 3px; color: var(--cream);
+  margin-bottom: 0.3rem; line-height: 1;
+}
+.post-date {
+  font-family: var(--mono); font-size: 12px;
+  color: var(--muted); letter-spacing: 1px;
+}
+
+/* blocos de texto */
+.narrative {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+}
+.narrative-label {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 2px; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 0.8rem;
+}
+.narrative p {
+  font-size: 16px; line-height: 1.8;
+  color: var(--cream); margin-bottom: 0.8rem;
+}
+.narrative p:last-child { margin-bottom: 0; }
+.narrative strong { color: var(--red3); font-weight: 600; }
+
+/* citação */
+.quote-block {
+  border-left: 2px solid var(--red2);
+  padding: 0.6rem 1.1rem;
+  margin: 1rem 0;
+  background: rgba(139,26,26,0.05);
+}
+.quote-block p {
+  font-style: italic; font-size: 15.5px;
+  color: var(--cream2); line-height: 1.65;
+}
+
+/* grid de cards internos */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px; margin: 1.5rem 0;
+}
+.card {
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 1rem 1.1rem 1.1rem; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%; background: var(--red); opacity: 0.5;
+}
+.card.card-cream::before { background: var(--cream2); opacity: 0.4; }
+.card-label {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 2px; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+.card-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.item-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.item {
+  font-size: 13.5px; color: var(--cream);
+  line-height: 1.45; display: flex; gap: 8px; align-items: flex-start;
+}
+.item-dot { color: var(--red2); flex-shrink: 0; font-family: var(--mono); font-size: 13px; margin-top: 1px; }
+.item-dot.cream { color: var(--cream2); }
+
+/* separador de seção interno */
+.section-divider {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 2rem 0 1.2rem;
+}
+.section-divider-label {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 3px; color: var(--red2);
+  text-transform: uppercase; white-space: nowrap;
+}
+.section-divider-line {
+  flex: 1; height: 1px; background: var(--border2);
+}
+
+/* rodapé do post */
+.post-footer {
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.2rem;
+  display: flex; justify-content: space-between;
+  flex-wrap: wrap; gap: 8px;
+  font-family: var(--mono); font-size: 11px;
+  color: var(--muted); letter-spacing: 1px;
+}
+.post-footer a { color: var(--muted); text-decoration: none; }
+.post-footer a:hover { color: var(--cream2); }
+
+/* caixa de jogo disponível */
+.play-box {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+  background: rgba(139,26,26,0.07);
+  border: 1px solid var(--red);
+  padding: 1rem 1.4rem;
+  margin: 1.5rem 0;
+}
+.play-box-text {
+  font-size: 14px; color: var(--cream2); line-height: 1.5;
+}
+.play-box-text strong { color: var(--cream); }
+.play-btn {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; padding: 10px 22px;
+  border: 1px solid var(--red2); color: var(--red3);
+  background: rgba(139,26,26,0.12);
+  transition: all 0.2s; white-space: nowrap;
+}
+.play-btn:hover { background: rgba(139,26,26,0.25); color: #ff6060; }
+
+/* animação entrada */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.wrap > * { animation: fadeUp 0.5s ease both; }
+.wrap > *:nth-child(1) { animation-delay: 0.05s; }
+.wrap > *:nth-child(2) { animation-delay: 0.12s; }
+.wrap > *:nth-child(3) { animation-delay: 0.18s; }
+.wrap > *:nth-child(4) { animation-delay: 0.24s; }
+.wrap > *:nth-child(5) { animation-delay: 0.30s; }
+.wrap > *:nth-child(6) { animation-delay: 0.36s; }
+.wrap > *:nth-child(7) { animation-delay: 0.42s; }
+.wrap > *:nth-child(8) { animation-delay: 0.48s; }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">KEYWORD GAMES</a>
+  <a href="index.html#devlog" class="nav-back">← Devlogs</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- cabeçalho -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="game-title">O Vazio que Respira</div>
+        <div class="game-sub">VISUAL NOVEL · TERROR PSICOLÓGICO · HTML · CSS · JAVASCRIPT</div>
+      </div>
+    </div>
+    <div class="version-row">
+      <span class="tag tag-red">publicado</span>
+      <span class="tag tag-cream">reflexão · devlog</span>
+      <span class="tag tag-gray">31 mai 2026</span>
+      <span class="tag tag-gray">KeyWord Games</span>
+    </div>
+  </div>
+
+  <!-- título do post -->
+  <div style="margin-bottom:1.5rem;">
+    <div class="post-title">O PRIMEIRO</div>
+    <div class="post-date">O VAZIO QUE RESPIRA — O PRIMEIRO JOGO PUBLICADO</div>
+  </div>
+
+  <!-- abertura -->
+  <div class="narrative">
+    <div class="narrative-label">// o ponto de partida</div>
+    <p>Eu estudo desenvolvimento de jogos há vários anos.</p>
+    <p>Nesse tempo, passei por <strong>Unity, Godot, Construct, RPG Maker, Unreal, GameMaker</strong>. Iniciei projetos, aprendi mecânicas, segui tutoriais, li livros, montei cenas, escrevi código. E nunca publiquei nada. Os projetos que chegaram perto de uma conclusão se perderam no caminho — sem backup, sem registro, sem nome. Existiram só pra mim, por um tempo, e depois sumiram.</p>
+    <p>Essa é uma realidade que poucos falam abertamente no desenvolvimento independente: você pode estudar por anos e ainda não ter nada que mostre isso pra alguém.</p>
+    <div class="quote-block">
+      <p>"O Vazio que Respira mudou isso."</p>
+    </div>
+  </div>
+
+  <!-- a ideia -->
+  <div class="section-divider">
+    <span class="section-divider-label">// a ideia</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="narrative">
+    <div class="narrative-label">// três coisas</div>
+    <p>O objetivo era simples: unir três coisas que me interessam genuinamente — <strong>jogos, terror e RPG narrativo</strong>. Não queria fazer algo grandioso. Queria fazer algo <strong>completo</strong>. Existe uma diferença enorme entre as duas coisas, e demorei pra entender isso.</p>
+    <p>O terror psicológico como tema não foi acidente. Sempre me atraiu a ideia de um jogo que perturba sem precisar de jump scare, sem monstro aparecendo na tela. Só texto, escolhas e a sensação crescente de que algo está errado. O Vazio trabalha exatamente nesse espaço — consciência, existência, o desconforto de não saber o que é real dentro da narrativa.</p>
+  </div>
+
+  <!-- a escolha técnica -->
+  <div class="section-divider">
+    <span class="section-divider-label">// a escolha técnica</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="narrative">
+    <div class="narrative-label">// sem engine</div>
+    <p>A decisão mais importante — e mais estranha — foi <strong>não usar engine nenhuma</strong>.</p>
+    <p>Depois de anos circulando entre as ferramentas, escolhi a combinação mais básica possível: <strong>HTML, CSS e JavaScript puro</strong>. Sem framework, sem biblioteca, sem nada que eu não tivesse escrito linha por linha.</p>
+    <p>Isso foi deliberado. Eu queria entender o que está embaixo. Quando você usa uma engine, ela resolve uma série de problemas antes de você chegar neles. Isso é ótimo para produtividade, mas às vezes deixa lacunas no entendimento. Queria preencher essas lacunas.</p>
+    <div class="quote-block">
+      <p>"O resultado foi que, enquanto desenvolvia o jogo, acabei construindo uma mini engine narrativa junto — dentro do próprio arquivo, ao mesmo tempo em que a história tomava forma."</p>
+    </div>
+  </div>
+
+  <!-- o que foi construído -->
+  <div class="grid">
+    <div class="card">
+      <div class="card-label">sistemas construídos do zero</div>
+      <ul class="item-list">
+        <li class="item"><span class="item-dot">▸</span>Sistema de cenas e roteamento narrativo</li>
+        <li class="item"><span class="item-dot">▸</span>Typewriter — texto caractere por caractere</li>
+        <li class="item"><span class="item-dot">▸</span>Save automático via localStorage</li>
+        <li class="item"><span class="item-dot">▸</span>Escolhas com ramificações e flags de estado</li>
+        <li class="item"><span class="item-dot">▸</span>Sanidade como mecânica narrativa</li>
+        <li class="item"><span class="item-dot">▸</span>Múltiplos finais baseados em decisões acumuladas</li>
+      </ul>
+    </div>
+    <div class="card card-cream">
+      <div class="card-label">o jogo em números</div>
+      <ul class="item-list">
+        <li class="item"><span class="item-dot cream">▸</span>4 capítulos completos</li>
+        <li class="item"><span class="item-dot cream">▸</span>6 finais diferentes</li>
+        <li class="item"><span class="item-dot cream">▸</span>Arquivo único — HTML + CSS + JS</li>
+        <li class="item"><span class="item-dot cream">▸</span>Funciona offline, sem servidor</li>
+        <li class="item"><span class="item-dot cream">▸</span>Roda direto no navegador</li>
+        <li class="item"><span class="item-dot cream">▸</span>Zero dependências externas</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- o que aprendi -->
+  <div class="section-divider">
+    <span class="section-divider-label">// aprendizados</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="narrative">
+    <div class="narrative-label">// o que não esperava aprender</div>
+    <p>Desenvolver o Vazio me ensinou coisas que não encontrei em tutorial nenhum — não porque o conteúdo não exista, mas porque algumas coisas só fazem sentido quando você está no meio de um problema real, com um jogo específico dependendo da solução.</p>
+    <p>Aprendi que <strong>narrativa e sistema são a mesma coisa</strong> num jogo de texto. Uma escolha mal estruturada no código quebra a história. Uma flag de estado mal pensada cria um caminho impossível na narrativa. Os dois lados precisam conversar o tempo todo.</p>
+    <p>Aprendi que <strong>simplicidade técnica não significa projeto simples</strong>. O arquivo do jogo é HTML, CSS e JavaScript. Mas dentro dele há uma arquitetura com múltiplos sistemas, cinco capítulos, ramificações que mudam conforme as escolhas acumuladas, e seis finais diferentes.</p>
+    <p>E aprendi, principalmente, que <strong>terminar importa mais do que perfeito</strong>. O Vazio tem coisas que eu faria diferente hoje. Mas ele existe, está publicado, tem o meu nome nele.</p>
+  </div>
+
+  <!-- o marco -->
+  <div class="section-divider">
+    <span class="section-divider-label">// o marco</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="narrative">
+    <div class="narrative-label">// o primeiro</div>
+    <p>Toda essa história técnica tem uma linha embaixo que é mais simples do que parece:</p>
+    <p><strong>O Vazio que Respira é o primeiro jogo que publiquei.</strong> O primeiro que tem nome. O primeiro em que aparece <strong>Erisvaldo Correia</strong> como desenvolvedor.</p>
+    <p>Depois de anos estudando, esse é o marco. Não o mais ambicioso tecnicamente, não o maior em escopo. Mas o primeiro que chegou até o fim.</p>
+    <div class="quote-block">
+      <p>"E isso, no desenvolvimento independente, significa tudo."</p>
+    </div>
+  </div>
+
+  <!-- jogar -->
+  <div class="play-box">
+    <div class="play-box-text">
+      <strong>O Vazio que Respira</strong> está disponível para jogar no navegador.<br>
+      Uma experiência sobre consciência, existência e o que fica quando tudo o mais se dissolve.
+    </div>
+    <a href="https://keywordgames.itch.io" target="_blank" class="play-btn">[ Jogar Agora ]</a>
+  </div>
+
+  <!-- rodapé -->
+  <div class="post-footer">
+    <span>HTML · CSS · JavaScript · sem engine · arquivo único</span>
+    <span><a href="vazio.html">ver página do jogo →</a></span>
+  </div>
+
+</div><!-- /.wrap -->
+
+</body>
+</html>
