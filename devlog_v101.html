@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>v1.0.1 — A Estação Respira Melhor · A Última Gravação · KeyWord Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#09080d; --bg2:#0e0c14; --bg3:#13101a;
+  --border:#1e1a2a; --border2:#2a2438;
+  --red:#8b1a1a; --red2:#e05555; --red3:#f07070;
+  --cream:#d4c8a8; --cream2:#b0a080; --muted:#6a6050; --dark:#352e1e;
+  --mono:'Share Tech Mono',monospace;
+  --display:'Bebas Neue',sans-serif;
+  --serif:'Crimson Pro',Georgia,serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--serif);
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 3rem; height:60px;
+  background:rgba(9,8,13,0.92);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo {
+  font-family:var(--display); font-size:18px;
+  letter-spacing:3px; color:var(--cream2); text-decoration:none;
+}
+.nav-logo:hover { color:var(--cream); }
+.nav-links { display:flex; gap:2.5rem; list-style:none; }
+.nav-links a {
+  font-family:var(--mono); font-size:11px; letter-spacing:2px;
+  color:var(--muted); text-decoration:none; text-transform:uppercase;
+  transition:color .2s;
+}
+.nav-links a:hover { color:var(--cream); }
+
+/* ── WRAP ── */
+.wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 100px 2rem 5rem;
+}
+
+/* ── CABEÇALHO DO POST ── */
+.post-header {
+  border-bottom: 1px solid var(--border2);
+  padding-bottom: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.post-breadcrumb {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .3em; color: var(--muted);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.post-breadcrumb a { color: var(--muted); text-decoration: none; }
+.post-breadcrumb a:hover { color: var(--cream2); }
+.post-breadcrumb span { color: var(--border2); }
+
+.post-game-tag {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .4em; color: var(--red2);
+  margin-bottom: .5rem;
+  display: block;
+}
+
+.post-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 6vw, 58px);
+  letter-spacing: 3px; color: var(--cream);
+  line-height: 1; margin-bottom: .6rem;
+}
+
+.post-meta {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: .15em; color: var(--muted);
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  margin-top: .8rem;
+}
+
+.post-version {
+  display: inline-block;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .2em; color: var(--red3);
+  border: 1px solid rgba(224,85,85,.3);
+  background: rgba(139,26,26,.1);
+  padding: 3px 10px; border-radius: 2px;
+  margin-top: .5rem;
+}
+
+/* ── CORPO DO POST ── */
+.post-body {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--cream2);
+}
+
+.post-body p {
+  margin-bottom: 1.3rem;
+}
+
+.post-body h2 {
+  font-family: var(--display);
+  font-size: clamp(22px, 3.5vw, 34px);
+  letter-spacing: 2px; color: var(--cream);
+  margin: 2.5rem 0 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-body h3 {
+  font-family: var(--mono); font-size: 12px;
+  letter-spacing: .4em; color: var(--red2);
+  margin: 2rem 0 .8rem;
+  text-transform: uppercase;
+}
+
+.post-body strong { color: var(--cream); font-weight: 600; }
+
+/* Bloco de destaque */
+.highlight-block {
+  border-left: 3px solid var(--red2);
+  background: rgba(139,26,26,.06);
+  padding: 1rem 1.4rem;
+  margin: 1.5rem 0;
+  font-size: 15px;
+  color: var(--cream2);
+  line-height: 1.75;
+}
+
+/* Lista de mudanças */
+.change-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  margin: 1rem 0 1.5rem;
+}
+.change-list li {
+  display: flex;
+  gap: .8rem;
+  font-size: 15px;
+  color: var(--cream2);
+  line-height: 1.6;
+}
+.change-list li::before {
+  content: '→';
+  color: var(--red2);
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+/* Separador */
+.post-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+/* ── RODAPÉ DO POST ── */
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.post-footer-left {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .2em; color: var(--muted);
+  line-height: 1.7;
+}
+
+.btn-play {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: .2em; text-decoration: none;
+  padding: 10px 24px;
+  border: 1px solid var(--red2); color: var(--red3);
+  background: rgba(139,26,26,.1);
+  transition: all .2s; white-space: nowrap;
+}
+.btn-play:hover { background: rgba(139,26,26,.25); color: #ff6060; }
+
+/* Navegação entre posts */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+.post-nav a {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: .15em; color: var(--muted);
+  text-decoration: none; transition: color .2s;
+  max-width: 48%;
+}
+.post-nav a:hover { color: var(--cream); }
+.post-nav .prev::before { content: '← '; }
+.post-nav .next { text-align: right; }
+.post-nav .next::after { content: ' →'; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 16px 3rem;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  font-family: var(--mono); font-size: 10px; color: var(--muted);
+}
+
+@keyframes fadein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.wrap { animation: fadein .4s ease both; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">KEYWORD GAMES</a>
+  <ul class="nav-links">
+    <li><a href="index.html#jogos">Jogos</a></li>
+    <li><a href="devlogs.html">Devlog</a></li>
+    <li><a href="index.html#sobre">Sobre</a></li>
+    <li><a href="https://keywordgames.itch.io" target="_blank">itch.io ↗</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <!-- Cabeçalho -->
+  <div class="post-header">
+    <div class="post-breadcrumb">
+      <a href="devlogs.html">devlogs</a>
+      <span>/</span>
+      <span>A Última Gravação</span>
+    </div>
+
+    <span class="post-game-tag">A ÚLTIMA GRAVAÇÃO · ATUALIZAÇÃO</span>
+    <h1 class="post-title">A ESTAÇÃO<br>RESPIRA MELHOR</h1>
+
+    <div class="post-meta">
+      <span>06 Jun 2026</span>
+      <span>KeyWord Games</span>
+    </div>
+    <span class="post-version">v1.0.1</span>
+  </div>
+
+  <!-- Corpo -->
+  <div class="post-body">
+
+    <p>
+      A v1.0 foi o fim de um desafio. Sete dias, um jogo completo — havia uma pressão
+      implícita em cada decisão tomada naquele período, e ela deixou marcas.
+      Não defeitos graves, mas lacunas. Coisas que existiam porque o tempo não permitiu
+      que existissem melhor.
+    </p>
+
+    <p>
+      A v1.0.1 é outra coisa. É o jogo sendo revisitado com calma, sem o relógio
+      correndo. Não houve grandes rupturas desta vez — nenhum sistema construído do zero,
+      nenhum ambiente novo adicionado. O que aconteceu foi mais sutil:
+      a Estação 7 recebeu atenção nos detalhes que sete dias intensos não permitiram.
+    </p>
+
+    <hr class="post-divider">
+
+    <h2>O QUE MUDOU</h2>
+
+    <h3>// Marcus chega como Marcus</h3>
+
+    <p>
+      Isso parecia óbvio desde o início, mas na prática faltava algo que tornasse
+      o papel de investigador tangível logo nos primeiros minutos. Marcus Vael não é
+      um personagem genérico que acorda em algum lugar e começa a explorar —
+      ele tem uma tarefa, uma razão para estar ali.
+    </p>
+
+    <p>
+      Essa lacuna foi preenchida. O jogo agora comunica melhor o que se espera do jogador
+      de forma integrada à narrativa, sem quebrar a atmosfera ou recorrer a tutoriais
+      explícitos. É uma diferença pequena em termos de conteúdo e grande em termos
+      de imersão.
+    </p>
+
+    <h3>// Ambiente com mais história</h3>
+
+    <p>
+      A interatividade da sala principal foi ampliada. Há mais coisas para examinar —
+      objetos que existem ali porque fazem sentido existir naquele espaço, não apenas
+      porque servem ao enredo. Uma estação de rádio de 1987 tem história própria,
+      independente de qualquer mistério. Essa camada foi aprofundada.
+    </p>
+
+    <div class="highlight-block">
+      Um ambiente de terror atmosférico só funciona quando o espaço parece habitado.
+      Não por monstros — por tempo. Por pessoas que estiveram ali antes.
+      Essa foi a ideia guia desta atualização.
+    </div>
+
+    <h3>// Respostas à progressão</h3>
+
+    <p>
+      O ambiente agora reage melhor ao que Marcus descobre. Não de forma dramática —
+      de forma coerente. Coisas que antes permaneciam estáticas independente do
+      progresso do jogador agora respondem à narrativa.
+      Quem jogar com atenção vai perceber a diferença.
+    </p>
+
+    <hr class="post-divider">
+
+    <h2>O QUE NÃO MUDOU</h2>
+
+    <p>
+      A história é a mesma. O final é o mesmo. Nenhuma pista foi adicionada,
+      nenhuma mecânica foi alterada. Quem já jogou a v1.0 não vai encontrar
+      novos segredos — vai encontrar um ambiente que se sente mais vivo
+      em torno dos mesmos segredos.
+    </p>
+
+    <p>
+      Essa distinção importa. O objetivo desta atualização não foi expandir
+      a história — foi garantir que a história existente se apresentasse
+      da forma que sempre deveria ter se apresentado.
+    </p>
+
+    <hr class="post-divider">
+
+    <h2>SOBRE O PROJETO</h2>
+
+    <p>
+      A Última Gravação continua em desenvolvimento ativo.
+      As bases para uma expansão mais profunda — com novos conteúdos narrativos
+      e mais camadas para a história de Marcus Vael e da Estação 7 — estão sendo
+      preparadas com cuidado.
+    </p>
+
+    <p>
+      A Estação 7 ainda guarda mais do que revelou.
+    </p>
+
+  </div>
+
+  <!-- Rodapé do post -->
+  <div class="post-footer">
+    <div class="post-footer-left">
+      A Última Gravação · v1.0.1<br>
+      KeyWord Games © 2026
+    </div>
+    <a href="https://keywordgames.itch.io/a-ultima-gravacao"
+       target="_blank" class="btn-play">
+      [ Jogar Agora ]
+    </a>
+  </div>
+
+  <!-- Navegação entre posts -->
+  <div class="post-nav">
+    <a href="devlog_dia7.html" class="prev">A Estação Está Completa</a>
+    <a href="devlogs.html" class="next">Ver todos os artigos</a>
+  </div>
+
+</div>
+
+<footer>
+  <span>KEYWORD GAMES © 2026</span>
+  <span>todos os direitos reservados</span>
+</footer>
+
+</body>
+</html>

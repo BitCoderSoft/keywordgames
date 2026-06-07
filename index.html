@@ -625,6 +625,24 @@ footer a:hover { color: var(--cream2); }
 .devlog-card-feature .devlog-card-day {
   color: var(--red3);
 }
+
+.devlog-more {
+  margin-top: 2rem;
+  text-align: right;
+}
+.devlog-more-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color .2s;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+}
+.devlog-more-link:hover { color: var(--cream); border-color: var(--red2); }
+
 </style>
 </head>
 <body>
@@ -646,7 +664,6 @@ footer a:hover { color: var(--cream2); }
 <!-- HERO -->
 <div class="hero">
   <div class="hero-bg"></div>
-  <img src="logo_keyword.png" alt="KeyWord Games Logo" class="hero-logo">
   <h1 class="hero-title">KEY<span>WORD</span><br>GAMES</h1>
   <p class="hero-tagline">explorando o horror independente — terror, RPG e aventura</p>
   <div class="hero-tags">
@@ -718,88 +735,20 @@ footer a:hover { color: var(--cream2); }
   <div class="section-label">// diário de desenvolvimento</div>
   <h2 class="section-title">DEVLOGS</h2>
 
-  <!-- ── Fileira: Postagens gerais (O Vazio, reflexões, etc.) ── -->
-  <div class="devlog-sublabel">// o vazio que respira</div>
-  <div class="devlog-grid devlog-grid-general" style="margin-bottom:3rem;">
-
-    <a href="devlog_vazio.html" class="devlog-card devlog-card-feature">
-      <div class="devlog-card-day">Reflexão · 31 Mai 2026</div>
-      <div class="devlog-card-title">O PRIMEIRO</div>
-      <p class="devlog-card-excerpt">Anos de estudo, projetos pela metade e ferramentas diferentes. O Vazio que Respira é o primeiro jogo completo e publicado — feito do zero, com HTML, CSS e JavaScript.</p>
-      <div class="devlog-card-meta">
-        <span class="devlog-card-version">post · devlog</span>
-        <span class="devlog-card-arrow">→</span>
-      </div>
-    </a>
-
-  </div>
-
-  <!-- ── Fileira: A Última Gravação ── -->
-  <div class="devlog-sublabel">// a última gravação</div>
   <div class="devlog-grid">
 
-    <a href="devlog_dia1.html" class="devlog-card">
-      <div class="devlog-card-day">Dia 1 · 26 Mai 2026</div>
-      <div class="devlog-card-title">CRIANDO A BASE DO JOGO</div>
-      <p class="devlog-card-excerpt">Ambiente 3D navegável em primeira pessoa, movimentação WASD, sala principal com iluminação atmosférica e menu inicial. O início de tudo.</p>
+    <a href="devlog_v101.html" class="devlog-card devlog-card-feature">
+      <div class="devlog-card-day">06 Jun 2026 · A Última Gravação</div>
+      <div class="devlog-card-title">A ESTAÇÃO RESPIRA MELHOR</div>
+      <p class="devlog-card-excerpt">A v1.0 foi o fim de um desafio. A v1.0.1 é o jogo sendo revisitado com calma — mais ambiente, mais coerência, mesma história.</p>
       <div class="devlog-card-meta">
-        <span class="devlog-card-version">v0.0.1</span>
+        <span class="devlog-card-version">v1.0.1 · atualização</span>
         <span class="devlog-card-arrow">→</span>
-      </div>
-    </a>
-
-    <a href="devlog_dia2.html" class="devlog-card">
-      <div class="devlog-card-day">Dia 2 · 27 Mai 2026</div>
-      <div class="devlog-card-title">NARRATIVA, ATMOSFERA E OS PRIMEIROS PASSOS</div>
-      <p class="devlog-card-excerpt">Introdução narrativa com texto letra a letra, lâmpada piscando com falhas irregulares, fluxo completo de cenas e fade entre salas.</p>
-      <div class="devlog-card-meta">
-        <span class="devlog-card-version">v0.0.2</span>
-        <span class="devlog-card-arrow">→</span>
-      </div>
-    </a>
-
-    <a href="devlog_dia3_v003.html" class="devlog-card">
-      <div class="devlog-card-day">Dia 3 · 28 Mai 2026</div>
-      <div class="devlog-card-title">FUNDAÇÕES SÓLIDAS E O DEPÓSITO GANHA VIDA</div>
-      <p class="devlog-card-excerpt">Batalha das texturas PBR no web, estante metálica e caixas de papelão modeladas do zero, discovery text e seis caixas no depósito.</p>
-      <div class="devlog-card-meta">
-        <span class="devlog-card-version">v0.0.3</span>
-        <span class="devlog-card-arrow">→</span>
-      </div>
-    </a>
-
-    <a href="devlog_dia4.html" class="devlog-card">
-      <div class="devlog-card-day">Dia 4 · 29 Mai 2026</div>
-      <div class="devlog-card-title">O RÁDIO FALA</div>
-      <p class="devlog-card-excerpt">8 elementos modelados, sistema de interação com raycast e crosshair, rádio transmissor como primeiro objeto narrativo. Marcus Vael fala pela primeira vez.</p>
-      <div class="devlog-card-meta">
-        <span class="devlog-card-version">v0.0.4</span>
-        <span>→</span>
-      </div>
-    </a>
-
-    <a href="devlog_dia5.html" class="devlog-card">
-      <div class="devlog-card-day">Dia 5 · 30 Mai 2026</div>
-      <div class="devlog-card-title">A VOZ DO RÁDIO</div>
-      <p class="devlog-card-excerpt">Voz do investigador anterior, gaveta interativa com log de 1983, jornal, sons de passos e checklist silencioso do final.</p>
-      <div class="devlog-card-meta">
-        <span class="devlog-card-version">v0.0.5</span>
-        <span>→</span>
-      </div>
-    </a>
-
-    <a href="devlog_dia6.html" class="devlog-card">
-      <div class="devlog-card-day">Dia 6 · 31 Mai 2026</div>
-      <div class="devlog-card-title">A ESTRADA TEM MEMÓRIA</div>
-      <p class="devlog-card-excerpt">Estrada noturna, fachada da Estação 7, pensamentos por proximidade, gate narrativo e armário com porta interativa. O fluxo completo do jogo.</p>
-      <div class="devlog-card-meta">
-        <span class="devlog-card-version">v0.0.6</span>
-        <span>→</span>
       </div>
     </a>
 
     <a href="devlog_dia7.html" class="devlog-card" style="border-color:#3a1515;">
-      <div class="devlog-card-day" style="color:#f07070;">Dia 7 · 02 Jun 2026 · FINAL</div>
+      <div class="devlog-card-day" style="color:#f07070;">02 Jun 2026 · A Última Gravação</div>
       <div class="devlog-card-title">A ESTAÇÃO ESTÁ COMPLETA</div>
       <p class="devlog-card-excerpt">Telefone que toca, objeto narrativo do depósito, desfecho implementado, 9 condições no checklist. Sete dias, um jogo completo.</p>
       <div class="devlog-card-meta">
@@ -808,44 +757,43 @@ footer a:hover { color: var(--cream2); }
       </div>
     </a>
 
+    <a href="devlog_vazio.html" class="devlog-card devlog-card-feature">
+      <div class="devlog-card-day">31 Mai 2026 · O Vazio que Respira</div>
+      <div class="devlog-card-title">O PRIMEIRO</div>
+      <p class="devlog-card-excerpt">Anos de estudo, projetos pela metade e ferramentas diferentes. O Vazio que Respira é o primeiro jogo completo e publicado — feito do zero, com HTML, CSS e JavaScript.</p>
+      <div class="devlog-card-meta">
+        <span class="devlog-card-version">reflexão · devlog</span>
+        <span class="devlog-card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="devlog_dia6.html" class="devlog-card">
+      <div class="devlog-card-day">31 Mai 2026 · A Última Gravação</div>
+      <div class="devlog-card-title">A ESTRADA TEM MEMÓRIA</div>
+      <p class="devlog-card-excerpt">Estrada noturna, fachada da Estação 7, pensamentos por proximidade, gate narrativo e armário com porta interativa.</p>
+      <div class="devlog-card-meta">
+        <span class="devlog-card-version">v0.0.6</span>
+        <span>→</span>
+      </div>
+    </a>
+
+    <a href="devlog_dia5.html" class="devlog-card">
+      <div class="devlog-card-day">30 Mai 2026 · A Última Gravação</div>
+      <div class="devlog-card-title">A VOZ DO RÁDIO</div>
+      <p class="devlog-card-excerpt">Voz do investigador anterior, gaveta interativa com log de 1983, jornal, sons de passos e checklist silencioso do final.</p>
+      <div class="devlog-card-meta">
+        <span class="devlog-card-version">v0.0.5</span>
+        <span>→</span>
+      </div>
+    </a>
+
   </div>
+
+  <div class="devlog-more">
+    <a href="devlogs.html" class="devlog-more-link">ver todos os artigos →</a>
+  </div>
+
 </section>
-
-<hr class="divider" style="margin-top:2rem;">
-
-<!-- SOBRE -->
-<div class="about-section" id="sobre" style="max-width:1100px;margin:0 auto;padding:4rem 2rem 5rem;">
-  <img src="logo_keyword.png" alt="KeyWord Games" class="about-logo">
-  <div class="about-text">
-    <div class="section-label">// sobre</div>
-    <h2 class="section-title">KEYWORD GAMES</h2>
-    <p>Estúdio independente explorando <strong>terror, RPG e aventura</strong> através de experiências narrativas intensas.</p>
-    <p>O processo de estudo é público — cada jogo publicado representa um ciclo de aprendizado documentado em devlogs diários, cobrindo <strong>pixel art, mecânicas, narrativa, atmosfera</strong> e arquitetura de código.</p>
-    <p>Ferramentas: <strong>Godot Engine, Unity, RPG Maker</strong> — e projetos sem engine para aprofundar fundamentos técnicos.</p>
-    <div class="about-links">
-      <a href="https://keywordgames.itch.io" target="_blank" class="btn btn-primary">[ itch.io ]</a>
-      <a href="https://www.instagram.com/keyword_games/" target="_blank" class="btn btn-secondary">[ Instagram ]</a>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <span class="footer-brand">KEYWORD GAMES</span>
-  <div style="display:flex;gap:2rem;flex-wrap:wrap;">
-    <a href="https://keywordgames.itch.io" target="_blank">itch.io</a>
-    <a href="https://www.instagram.com/keyword_games/" target="_blank">Instagram</a>
-  </div>
-  <span class="footer-meta">© 2026 KeyWord Games · Todos os direitos reservados</span>
-</footer>
-
-</body>
-</html>
-
-  </div>
-</section>
-
-<hr class="divider" style="margin-top:2rem;">
 
 <!-- SOBRE -->
 <div class="about-section" id="sobre" style="max-width:1100px;margin:0 auto;padding:4rem 2rem 5rem;">
