@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferramentas Novas, Mãos Novas · KeyWord Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#09080d; --bg2:#0e0c14; --bg3:#13101a;
+  --border:#1e1a2a; --border2:#2a2438;
+  --red:#8b1a1a; --red2:#e05555; --red3:#f07070;
+  --cream:#d4c8a8; --cream2:#b0a080; --muted:#6a6050; --dark:#352e1e;
+  --mono:'Share Tech Mono',monospace;
+  --display:'Bebas Neue',sans-serif;
+  --serif:'Crimson Pro',Georgia,serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--serif);
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 3rem; height:60px;
+  background:rgba(9,8,13,0.92);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo {
+  font-family:var(--display); font-size:18px;
+  letter-spacing:3px; color:var(--cream2); text-decoration:none;
+}
+.nav-logo:hover { color:var(--cream); }
+.nav-links { display:flex; gap:2.5rem; list-style:none; }
+.nav-links a {
+  font-family:var(--mono); font-size:11px; letter-spacing:2px;
+  color:var(--muted); text-decoration:none; text-transform:uppercase;
+  transition:color .2s;
+}
+.nav-links a:hover { color:var(--cream); }
+
+/* ── WRAP ── */
+.wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 100px 2rem 5rem;
+}
+
+/* ── CABEÇALHO DO POST ── */
+.post-header {
+  border-bottom: 1px solid var(--border2);
+  padding-bottom: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.post-breadcrumb {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .3em; color: var(--muted);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.post-breadcrumb a { color: var(--muted); text-decoration: none; }
+.post-breadcrumb a:hover { color: var(--cream2); }
+.post-breadcrumb span { color: var(--border2); }
+
+.post-game-tag {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .4em; color: var(--red2);
+  margin-bottom: .5rem;
+  display: block;
+}
+
+.post-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 6vw, 58px);
+  letter-spacing: 3px; color: var(--cream);
+  line-height: 1; margin-bottom: .6rem;
+}
+
+.post-meta {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: .15em; color: var(--muted);
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  margin-top: .8rem;
+}
+
+.post-version {
+  display: inline-block;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .2em; color: var(--red3);
+  border: 1px solid rgba(224,85,85,.3);
+  background: rgba(139,26,26,.1);
+  padding: 3px 10px; border-radius: 2px;
+  margin-top: .5rem;
+}
+
+/* ── CORPO DO POST ── */
+.post-body {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--cream2);
+}
+
+.post-body p {
+  margin-bottom: 1.3rem;
+}
+
+.post-body h2 {
+  font-family: var(--display);
+  font-size: clamp(22px, 3.5vw, 34px);
+  letter-spacing: 2px; color: var(--cream);
+  margin: 2.5rem 0 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-body h3 {
+  font-family: var(--mono); font-size: 12px;
+  letter-spacing: .4em; color: var(--red2);
+  margin: 2rem 0 .8rem;
+  text-transform: uppercase;
+}
+
+.post-body strong { color: var(--cream); font-weight: 600; }
+
+/* Bloco de destaque */
+.highlight-block {
+  border-left: 3px solid var(--red2);
+  background: rgba(139,26,26,.06);
+  padding: 1rem 1.4rem;
+  margin: 1.5rem 0;
+  font-size: 15px;
+  color: var(--cream2);
+  line-height: 1.75;
+}
+
+/* Lista de mudanças */
+.change-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  margin: 1rem 0 1.5rem;
+}
+.change-list li {
+  display: flex;
+  gap: .8rem;
+  font-size: 15px;
+  color: var(--cream2);
+  line-height: 1.6;
+}
+.change-list li::before {
+  content: '→';
+  color: var(--red2);
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+/* Separador */
+.post-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+/* ── FIGURA / SCREENSHOT ── */
+.post-figure {
+  margin: 1.8rem 0;
+}
+.post-figure img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--border2);
+  background: var(--bg2);
+}
+.post-figure-caption {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .15em; color: var(--muted);
+  margin-top: .6rem; text-align: center;
+}
+
+/* ── COMPARATIVO ── */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border2);
+  border: 1px solid var(--border2);
+  margin: 1.5rem 0;
+}
+.compare-col {
+  background: var(--bg2);
+  padding: 1.3rem 1.4rem;
+}
+.compare-col-label {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .2em; text-transform: uppercase;
+  margin-bottom: .8rem; display: block;
+}
+.compare-col-label.old { color: var(--muted); }
+.compare-col-label.new { color: var(--red2); }
+.compare-col p {
+  font-size: 14px; color: var(--cream2); line-height: 1.7;
+  margin-bottom: 0;
+}
+@media (max-width: 600px) {
+  .compare-grid { grid-template-columns: 1fr; }
+}
+
+/* Spoiler / teaser */
+.teaser-box {
+  border: 1px solid var(--border2);
+  background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+  padding: 1.6rem 1.6rem;
+  margin: 1.8rem 0;
+  position: relative;
+}
+.teaser-box::before {
+  content: '';
+  position: absolute; top:0; left:0; width:3px; height:100%;
+  background: var(--red2); opacity: .7;
+}
+.teaser-label {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .3em; color: var(--red3);
+  text-transform: uppercase; margin-bottom: .8rem;
+  display: block;
+}
+.teaser-box p {
+  font-size: 15px; color: var(--cream2); line-height: 1.8;
+  margin-bottom: .9rem;
+}
+.teaser-box p:last-child { margin-bottom: 0; }
+.teaser-box em { color: var(--cream); font-style: italic; }
+
+/* ── RODAPÉ DO POST ── */
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.post-footer-left {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .2em; color: var(--muted);
+  line-height: 1.7;
+}
+
+.btn-play {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: .2em; text-decoration: none;
+  padding: 10px 24px;
+  border: 1px solid var(--red2); color: var(--red3);
+  background: rgba(139,26,26,.1);
+  transition: all .2s; white-space: nowrap;
+}
+.btn-play:hover { background: rgba(139,26,26,.25); color: #ff6060; }
+
+/* Navegação entre posts */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+.post-nav a {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: .15em; color: var(--muted);
+  text-decoration: none; transition: color .2s;
+  max-width: 48%;
+}
+.post-nav a:hover { color: var(--cream); }
+.post-nav .prev::before { content: '← '; }
+.post-nav .next { text-align: right; }
+.post-nav .next::after { content: ' →'; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 16px 3rem;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  font-family: var(--mono); font-size: 10px; color: var(--muted);
+}
+
+@keyframes fadein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.wrap { animation: fadein .4s ease both; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">KEYWORD GAMES</a>
+  <ul class="nav-links">
+    <li><a href="index.html#jogos">Jogos</a></li>
+    <li><a href="devlogs.html">Devlog</a></li>
+    <li><a href="index.html#sobre">Sobre</a></li>
+    <li><a href="https://keywordgames.itch.io" target="_blank">itch.io ↗</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <!-- Cabeçalho -->
+  <div class="post-header">
+    <div class="post-breadcrumb">
+      <a href="devlogs.html">devlogs</a>
+      <span>/</span>
+      <span>Estúdio</span>
+    </div>
+
+    <span class="post-game-tag">KEYWORD GAMES · NOTAS DE ESTÚDIO</span>
+    <h1 class="post-title">FERRAMENTAS NOVAS,<br>MÃOS NOVAS</h1>
+
+    <div class="post-meta">
+      <span>10 Jun 2026</span>
+      <span>KeyWord Games</span>
+    </div>
+    <span class="post-version">estúdio · aprendizado</span>
+  </div>
+
+  <!-- Corpo -->
+  <div class="post-body">
+
+    <p>
+      A Última Gravação inteira — todos os móveis, paredes, portas, o rádio, o microfone,
+      cada caixa de papelão do depósito — foi modelada usando apenas as formas geométricas
+      nativas do Godot. Caixas e cilindros, combinados, escalados, rotacionados, às vezes
+      com uma operação booleana para escavar o interior de uma gaveta. Nada além disso.
+    </p>
+
+    <p>
+      Essa não foi uma limitação imposta de fora. Foi uma escolha consciente. O jogo
+      precisava rodar direto no navegador, exportado via WebAssembly, e isso significa
+      que cada triângulo extra na cena tem um custo real — tempo de carregamento,
+      memória, frames perdidos em hardware mais simples. A regra era clara:
+      <strong>menor número de polígonos e faces possível</strong>, sempre que a forma
+      permitisse. Funcionou. A estação de rádio inteira coube em pouco mais de 40MB
+      de build.
+    </p>
+
+    <div class="highlight-block">
+      Em sete dias, sem nenhuma experiência prévia em modelagem 3D, foi possível construir
+      um jogo completo usando exclusivamente as primitivas geométricas do próprio engine.
+      Essa é uma das lições mais valiosas que A Última Gravação deixou.
+    </div>
+
+    <hr class="post-divider">
+
+    <h2>UMA FERRAMENTA NOVA NA CAIXA</h2>
+
+    <p>
+      O próximo projeto não tem essa mesma restrição. Não será exportado para a web —
+      será construído para PC, rodando em Godot 4.3 com o renderer Forward+. Isso abre
+      espaço para repensar como os objetos do jogo são criados, e a resposta que
+      encontramos foi sair do CSG e entrar de cabeça no <strong>Blender</strong>.
+    </p>
+
+    <p>
+      Não é a primeira vez que o Blender aparece por aqui — ele já foi usado para
+      resolver problemas pontuais de escala e pipeline GLB durante experimentos
+      anteriores. Mas agora ele virou ferramenta principal de modelagem, e as últimas
+      semanas foram dedicadas a estudar de verdade como utilizá-lo: parenting de objetos,
+      modificadores booleanos para cortar vãos de porta direto na geometria, e o início
+      de sculpt para dar peso e imperfeição orgânica a superfícies que antes seriam
+      apenas caixas perfeitas.
+    </p>
+
+    <h3>// O gaveteiro</h3>
+
+    <p>
+      Um dos primeiros estudos sérios de composição foi um gaveteiro de madeira —
+      corpo, duas gavetas independentes, cada uma com seus próprios puxadores
+      cilíndricos agrupados como filhos do objeto da gaveta. É a mesma lógica de
+      hierarquia de nós que qualquer pessoa acostumada com a árvore de cena do Godot
+      reconhece imediatamente, só que aplicada dentro do Blender, com muito mais
+      liberdade de edição de geometria do que o CSG jamais ofereceria.
+    </p>
+
+    <div class="post-figure">
+      <img src="img_devlog/blender_gaveteiro.png" alt="Gaveteiro modelado no Blender com gavetas e puxadores organizados por hierarquia de objetos">
+      <div class="post-figure-caption">Gaveteiro em estudo — corpo, duas gavetas, puxadores cilíndricos agrupados por hierarquia. Painel de Boolean à direita, usado para cortes precisos na geometria.</div>
+    </div>
+
+    <p>
+      A proporção já lê como móvel real, não como teste. E a estrutura por trás —
+      gavetas organizadas como nós próprios, prontas para receber animação de
+      abrir e fechar — mostra que mesmo em fase de estudo já existe preocupação
+      com como esses modelos vão se comportar depois, dentro do jogo.
+    </p>
+
+    <h3>// A cama</h3>
+
+    <p>
+      O segundo estudo foi mais ambicioso: uma cama com colchão, almofadas, cabeceira
+      e pés, usando <strong>Subdivision Surface</strong> combinado com <strong>sculpt</strong>
+      para criar a deformação orgânica do tecido, seguido de sombreamento suave para
+      eliminar qualquer aspecto facetado na superfície final.
+    </p>
+
+    <div class="post-figure">
+      <img src="img_devlog/blender_cama.png" alt="Cama modelada no Blender com colchão esculpido organicamente e sombreamento suave">
+      <div class="post-figure-caption">Cama em estudo — Subdivision + Sculpt no colchão, Shade Smooth aplicado. Doze objetos organizados na coleção da cena.</div>
+    </div>
+
+    <p>
+      É um tipo de detalhe que simplesmente não existia no vocabulário visual de
+      A Última Gravação. Uma superfície com peso, com amassados sutis, com a
+      sensação de que alguém de fato dormiu ali — ou não dormiu, dependendo de
+      onde a história for parar.
+    </p>
+
+    <hr class="post-divider">
+
+    <h2>O QUE ISSO MUDA</h2>
+
+    <div class="compare-grid">
+      <div class="compare-col">
+        <span class="compare-col-label old">A ÚLTIMA GRAVAÇÃO</span>
+        <p>
+          Modelagem inteira via CSG nativo do Godot. Formas geométricas básicas,
+          polígonos reduzidos ao mínimo, otimizado para export web via WebAssembly.
+          Pipeline rápido, mas com limite claro de detalhe orgânico.
+        </p>
+      </div>
+      <div class="compare-col">
+        <span class="compare-col-label new">PRÓXIMO PROJETO</span>
+        <p>
+          Modelagem via Blender — open source, gratuito, com décadas de
+          refinamento em ferramentas de edição de geometria. Sculpt, booleanos,
+          parenting avançado. Construído para PC, sem a restrição de peso de
+          download que a web exige.
+        </p>
+      </div>
+    </div>
+
+    <p>
+      Vale reforçar um ponto: o Blender é <strong>open source</strong>, assim como o Godot.
+      Toda a stack de ferramentas da KeyWord Games — engine e modelagem — continua
+      sendo construída sobre software livre, sem depender de licenças pagas ou
+      ferramentas proprietárias. Isso importa para um estúdio que está aprendendo
+      em público, documentando cada passo, e quer que esse caminho seja replicável
+      por qualquer outra pessoa que esteja começando do zero também.
+    </p>
+
+    <hr class="post-divider">
+
+    <h2>UM SPOILER PEQUENO</h2>
+
+    <p>
+      Não vamos contar a história. Não ainda. Mas existe um próximo jogo sendo
+      desenhado, e ele já tem nome, ambientação e uma estrutura narrativa bem
+      mais ambiciosa do que os sete dias de A Última Gravação permitiriam.
+    </p>
+
+    <div class="teaser-box">
+      <span class="teaser-label">// o que já sabemos contar</span>
+      <p>
+        Vai ser um jogo de terror em primeira pessoa, construído num único
+        cenário contínuo — sem cortes de cena, sem telas de carregamento entre
+        ambientes. Um lugar que o jogador aprende a conhecer de verdade,
+        cômodo por cômodo, objeto por objeto.
+      </p>
+      <p>
+        A escala de produção é outra. Onde A Última Gravação foi <em>velocidade</em>
+        — um desafio de sete dias, aprendizado em tempo real, decisões tomadas
+        sob pressão de prazo — o próximo projeto é sobre <em>profundidade</em>.
+        Mais tempo de modelagem, mais atenção a cada detalhe, um sistema de
+        interação mais rico que permite carregar objetos de um lugar para outro,
+        e múltiplos finais possíveis dependendo do que o jogador descobrir
+        e da ordem em que descobrir.
+      </p>
+      <p>
+        Por enquanto é isso que podemos mostrar: ferramentas novas, mãos
+        aprendendo, e uma casa sendo construída — primeiro no Blender,
+        depois no Godot, depois na mente de quem for jogar.
+      </p>
+    </div>
+
+    <hr class="post-divider">
+
+    <h2>O QUE VEM A SEGUIR</h2>
+
+    <p>
+      Os estudos no Blender continuam. A planta da casa está sendo remodelada
+      do zero agora que o domínio da ferramenta está mais sólido — sem as
+      limitações do primeiro teste, com mais confiança para usar sculpt e
+      booleanos onde fizer sentido. Quando a casa estiver pronta e aprovada,
+      a construção do jogo de verdade começa.
+    </p>
+
+    <p>
+      A KeyWord Games continua sendo, antes de tudo, um processo de aprendizado
+      público. Esse devlog existe para isso — para mostrar não só o que funciona,
+      mas o caminho de tentativa, ferramenta nova e erro até chegar lá.
+    </p>
+
+  </div>
+
+  <!-- Rodapé do post -->
+  <div class="post-footer">
+    <div class="post-footer-left">
+      KeyWord Games · Notas de Estúdio<br>
+      KeyWord Games © 2026
+    </div>
+    <a href="index.html#jogos" class="btn-play">
+      [ Ver Jogos ]
+    </a>
+  </div>
+
+  <!-- Navegação entre posts -->
+  <div class="post-nav">
+    <a href="devlog_v101.html" class="prev">A Estação Respira Melhor</a>
+    <a href="devlogs.html" class="next">Ver todos os artigos</a>
+  </div>
+
+</div>
+
+<footer>
+  <span>KEYWORD GAMES © 2026</span>
+  <span>todos os direitos reservados</span>
+</footer>
+
+</body>
+</html>
